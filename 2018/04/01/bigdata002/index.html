@@ -4,14 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>Asuka的个人笔记</title>
+  <title>Hive学习笔记 | Asuka的个人笔记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Asuka的个人笔记">
-<meta property="og:url" content="https://nfsp412.github.io/asuka.github.io/index.html">
+  <meta name="description" content="本文是自己在学习Hive过程中整理的一些基础笔记,仅做记录 count的区别在hive中 count(字段)，字段可能为null，不会统计null值 count(*)，可以统计到有null的值 count(1)，和count(*)，底层执行计划完全一致，效果一致 能否解压缩后直接使用hive可以，因为默认可以使用derby数据库存储元数据，只需要保证hadoop集群启动即可 不启动hiveserv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive学习笔记">
+<meta property="og:url" content="https://nfsp412.github.io/asuka.github.io/2018/04/01/bigdata002/index.html">
 <meta property="og:site_name" content="Asuka的个人笔记">
+<meta property="og:description" content="本文是自己在学习Hive过程中整理的一些基础笔记,仅做记录 count的区别在hive中 count(字段)，字段可能为null，不会统计null值 count(*)，可以统计到有null的值 count(1)，和count(*)，底层执行计划完全一致，效果一致 能否解压缩后直接使用hive可以，因为默认可以使用derby数据库存储元数据，只需要保证hadoop集群启动即可 不启动hiveserv">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-01T10:20:03.000Z">
+<meta property="article:modified_time" content="2024-11-09T15:55:18.522Z">
 <meta property="article:author" content="asuka">
+<meta property="article:tag" content="大数据">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/asuka.github.io/atom.xml" title="Asuka的个人笔记" type="application/atom+xml">
@@ -79,9 +84,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-bigdata002" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-bigdata002" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/asuka.github.io/2018/04/01/bigdata002/" class="article-date">
   <time class="dt-published" datetime="2018-04-01T10:20:03.000Z" itemprop="datePublished">2018-04-01</time>
@@ -94,8 +97,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/asuka.github.io/2018/04/01/bigdata002/">Hive学习笔记</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      Hive学习笔记
     </h1>
   
 
@@ -379,154 +382,19 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-bigdata001" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/asuka.github.io/2018/03/01/bigdata001/" class="article-date">
-  <time class="dt-published" datetime="2018-03-01T14:30:48.000Z" itemprop="datePublished">2018-03-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/asuka.github.io/2018/03/01/bigdata001/">Hadoop学习笔记</a>
-    </h1>
+    <a href="/asuka.github.io/2018/03/01/bigdata001/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Hadoop学习笔记</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>本文是自己在学习Hadoop过程中整理的一些基础笔记,仅做记录</p>
-<h5 id="有哪些命令"><a href="#有哪些命令" class="headerlink" title="有哪些命令?"></a>有哪些命令?</h5><p>命令行操作方式</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">上传</span></span><br><span class="line">hadoop fs put </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">下载</span></span><br><span class="line">hadoop fs get </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列举明细</span></span><br><span class="line">hadoop fs ls</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看文件</span></span><br><span class="line">hadoop fs cat</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建目录</span></span><br><span class="line">hadoop fs mkdir</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">复制</span></span><br><span class="line">hadoop fs cp</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移动</span> </span><br><span class="line">hadoop fs mv</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除</span></span><br><span class="line">hadoop fs rm -r </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">大小</span></span><br><span class="line">hadoop fs du</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">用来提交mr程序job</span></span><br><span class="line">hadoop jar jarpath /input /output</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看fsimage文件</span></span><br><span class="line">hdfs oiv filename</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看edits</span></span><br><span class="line">hdfs oev filename</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置副本数量</span></span><br><span class="line">hadoop fs -setrep 3 filename</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出所有任务</span></span><br><span class="line">yarn application -list</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">根据具体状态列出任务</span></span><br><span class="line">yarn application -list -appStates</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">杀死任务</span></span><br><span class="line">yarn application -kill appID</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询任务的日志，没有页面的时候很常用</span></span><br><span class="line">yarn logs -applicationId appID</span><br><span class="line">yarn logs -applicationId appID | less</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出所有的NM节点</span></span><br><span class="line">yarn node -list -all</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询队列情况</span></span><br><span class="line">yarn queue -status QueueName</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">新加入磁盘时生成均衡计划</span></span><br><span class="line">hdfs diskbalancer -plan hostname</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">新加入磁盘时执行均衡计划</span></span><br><span class="line">hdfs diskbalancer -execute hostname.plan.json</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">刷新NameNode</span></span><br><span class="line">hdfs dfsadmin -refreshNodes</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">新加入服务器节点时开启数据均衡</span></span><br><span class="line">start-balancer.sh -threshold 10</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">强制转换成standby节点</span></span><br><span class="line">hdfs haadmin -transitionToStandby NN --forcemanual </span><br></pre></td></tr></table></figure>
-
-<p>API操作方式</p>
-<p>添加依赖</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>简单演示</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 获取文件系统</span></span><br><span class="line"><span class="type">Configuration</span> <span class="variable">configuration</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Configuration</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2 需要配置用户,否则无权限</span></span><br><span class="line"><span class="type">FileSystem</span> <span class="variable">fs</span> <span class="operator">=</span> FileSystem.get(<span class="keyword">new</span> <span class="title class_">URI</span>(<span class="string">&quot;hdfs://ip:port&quot;</span>), configuration, <span class="string">&quot;user&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3 创建目录</span></span><br><span class="line">fs.mkdirs(<span class="keyword">new</span> <span class="title class_">Path</span>(<span class="string">&quot;/path&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4 关闭资源</span></span><br><span class="line">fs.close();</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://hadoop.apache.org/docs/r3.4.0/hadoop-project-dist/hadoop-common/FileSystemShell.html">官网链接</a></p>
-<h5 id="参数的优先级"><a href="#参数的优先级" class="headerlink" title="参数的优先级"></a>参数的优先级</h5><ol>
-<li>客户端代码中设置的值（configuration.set(“key”,”value”)）</li>
-<li>classpath下的用户自定义配置文件（即resources目录下配置文件）</li>
-<li>服务器的自定义配置（xxx-site.xml）</li>
-<li>服务器的默认配置（xxx-default.xml）</li>
-</ol>
-<h5 id="如何保证数据完整性"><a href="#如何保证数据完整性" class="headerlink" title="如何保证数据完整性"></a>如何保证数据完整性</h5><p>DN读取数据块时，会计算checksum校验和，然后和创建时的校验和对比，相同则认为是数据完整的</p>
-<p>读写数据时也是按照512字节的chunk加上4字节的checksum校验和，凑够64kb以packet形式发送</p>
-<p>校验算法：crc，md5，sha1等</p>
-<h5 id="fsimage文件中为何没有记录数据块所对应datanode服务器信息"><a href="#fsimage文件中为何没有记录数据块所对应datanode服务器信息" class="headerlink" title="fsimage文件中为何没有记录数据块所对应datanode服务器信息"></a>fsimage文件中为何没有记录数据块所对应datanode服务器信息</h5><p>是因为在集群启动后，要求DataNode上报数据块信息，并间隔一段时间后再次上报,所以没有记录</p>
-<h5 id="NameNode如何确定下次开机启动的时候合并哪些Edits？"><a href="#NameNode如何确定下次开机启动的时候合并哪些Edits？" class="headerlink" title="NameNode如何确定下次开机启动的时候合并哪些Edits？"></a>NameNode如何确定下次开机启动的时候合并哪些Edits？</h5><p>fsimage文件选择最新序号,再加上edits文件从该序号之后的文件,即为需要合并的文件</p>
-<p>但是注意的是,namenode中还存在inprogress最新操作文件,这个是snn中没有的,丢失是可能发生的</p>
-<p>生产常用HA高可用</p>
-<h5 id="maptask并行度和什么有关系"><a href="#maptask并行度和什么有关系" class="headerlink" title="maptask并行度和什么有关系?"></a>maptask并行度和什么有关系?</h5><p>数据切片是MapReduce程序计算输入数据的单位，一个切片会对应启动一个MapTask</p>
-<p>默认切片大小为block块大小,即默认128MB,,注意IDEA调试的时候默认是32MB块</p>
-<p>是针对每一个文件进行切片计算</p>
-<p>注意判断条件是128MB的1.1倍,大于就切片128MB,小于就不切了,一整个作为一片</p>
-<h5 id="分区-分文件-数和reducetask个数的关系"><a href="#分区-分文件-数和reducetask个数的关系" class="headerlink" title="分区(分文件)数和reducetask个数的关系"></a>分区(分文件)数和reducetask个数的关系</h5><p>如果reducetask个数(默认1)大于分区数,那么多产生空part-r-000xx文件</p>
-<p>如果大于1小于分区数,会抛出异常,因为有一些数据没地方去</p>
-<p>如果为1,那么最终只有一个part-r-00000</p>
-<p>分区编号从0开始,在自定义分区器时需要注意</p>
-<h5 id="reduce方法调用次数"><a href="#reduce方法调用次数" class="headerlink" title="reduce方法调用次数?"></a>reduce方法调用次数?</h5><p>和分组key数量有关,注意如果是bean类型,且实现排序接口,那么会按照排序属性字段分组</p>
-<p>注意区分reduce方法调用次数和reducetask个数的区别</p>
-<h5 id="reducetask和maptask个数"><a href="#reducetask和maptask个数" class="headerlink" title="reducetask和maptask个数?"></a>reducetask和maptask个数?</h5><ol>
-<li>reducetask个数是手动指定的,默认1</li>
-<li>maptask个数看切片个数</li>
-</ol>
-<h5 id="如果数据不均衡（某个节点数据少，其他节点数据多），怎么处理？"><a href="#如果数据不均衡（某个节点数据少，其他节点数据多），怎么处理？" class="headerlink" title="如果数据不均衡（某个节点数据少，其他节点数据多），怎么处理？"></a>如果数据不均衡（某个节点数据少，其他节点数据多），怎么处理？</h5><p>节点间数据均衡,使用sbin&#x2F;start-balancer.sh -threshold 10命令,10代表差异不超过10%</p>
-<p>停止命令sbin&#x2F;stop-balancer.sh</p>
-<p>尽量不在nn节点进行</p>
-<h5 id="小文件怎么处理"><a href="#小文件怎么处理" class="headerlink" title="小文件怎么处理?"></a>小文件怎么处理?</h5><ol>
-<li>使用CombineTextInputFormat代替TextInputFormat类,去读取文件,设置合理的切片值,默认是4MB</li>
-<li>使用hadoop archive -archiveName input.har -p  &#x2F;small   &#x2F;output_small,实际上是一个mr任务,进行合并小文件,NN认为是一个文件,实际上还是多个小文件</li>
-<li>使用jvm重用,即开启uber模式参数</li>
-</ol>
-<h5 id="mr优化的参数有哪些"><a href="#mr优化的参数有哪些" class="headerlink" title="mr优化的参数有哪些?"></a>mr优化的参数有哪些?</h5><ol>
-<li><p>解决数据倾斜,使用自定义的分区类</p>
-</li>
-<li><p>相关参数的设置,例如环形缓冲区增大,溢出阈值,merge合并次数增加,reduce拉取的并行度增加,maptask和reducetask的cpu和内存的适当增加</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">增加环形缓冲区大小从100mb到更多</span><br><span class="line">mapreduce.task.io.sort.mb = 200</span><br><span class="line"></span><br><span class="line">增大阈值从80到更多</span><br><span class="line">mapreduce.map.sort.spill.percent = 90</span><br><span class="line"></span><br><span class="line">增加Merge次数从10到更多</span><br><span class="line">mapreduce.task.io.sort.factor = 20</span><br><span class="line"></span><br><span class="line">内存,cpu</span><br><span class="line">mapreduce.map.memory.mb</span><br><span class="line">mapreduce.map.cpu.vcores</span><br><span class="line">mapreduce.reduce.memory.mb</span><br><span class="line">mapreduce.reduce.cpu.vcores</span><br><span class="line"></span><br><span class="line">异常重试默认4次到更多</span><br><span class="line">mapreduce.map.maxattempts = 4</span><br><span class="line"></span><br><span class="line">reduce主动拉取的并行度,默认5到更多</span><br><span class="line">mapreduce.reduce.shuffle.Parallelcopies = 10</span><br><span class="line"></span><br><span class="line">拉取后先内存后磁盘,buffer大小,默认占比0.7到更多</span><br><span class="line">mapreduce.reduce.shuffle.input.buffer.percent = 0.8</span><br><span class="line"></span><br><span class="line">buffer数据占比开始溢出默认0.66到更多</span><br><span class="line">mapreduce.reduce.shuffle.merge.percent = 0.75</span><br><span class="line"></span><br><span class="line">reduce重试次数默认4次到更多</span><br><span class="line">mapreduce.reduce.maxattempts = 4</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>三个阶段都考虑使用压缩</p>
-</li>
-</ol>
-<h5 id="mr程序的数据倾斜怎么处理"><a href="#mr程序的数据倾斜怎么处理" class="headerlink" title="mr程序的数据倾斜怎么处理?"></a>mr程序的数据倾斜怎么处理?</h5><p>详见hive数据倾斜处理方式</p>
-<h5 id="namenode启动源码的了解"><a href="#namenode启动源码的了解" class="headerlink" title="namenode启动源码的了解"></a>namenode启动源码的了解</h5><p>NameNode类的main方法</p>
-<ol>
-<li>启动9870端口服务,使用HttpServer2类</li>
-<li>加载fsimage和edits log文件</li>
-<li>初始化nn的rpc服务端,使用NameNodeRpcServer类</li>
-<li>nn启动时的资源检查,心跳超时判断,超时10min+3s时间,安全模式检查,阈值是0.999,即1000块中只能有一个块失败</li>
-</ol>
-<h5 id="datanode启动源码的了解"><a href="#datanode启动源码的了解" class="headerlink" title="datanode启动源码的了解"></a>datanode启动源码的了解</h5><p>DataNode类的main方法</p>
-<ol>
-<li>初始化DataXceiverServer,这个对象和hdfs的上传有关</li>
-<li>初始化http服务,使用HttpServer2类</li>
-<li>初始化dn的rpc服务器,即创建了一个rpc客户端</li>
-<li>dn向nn注册,发送心跳</li>
-</ol>
-<p>	</p>
-<h5 id="hdfs上传源码的了解"><a href="#hdfs上传源码的了解" class="headerlink" title="hdfs上传源码的了解"></a>hdfs上传源码的了解</h5><ol>
-<li>创建过程源码,以create方法为例,实际上调用的是NameNodeRpcServer的create方法</li>
-<li>该方法创建DFSOutputStream输出流对象,相关参数是block 128mb,packet 64kb,chunk 512bytes,checksum 4bytes</li>
-<li>该对象调用start方法,实际上是DataStreamer线程的start方法</li>
-<li>创建了dataQueue队列和ackQueue队列</li>
-<li>写入过程源码,以write方法为例,实际上最终也是调用到了 DFSOutputStream输出流对象的writeChunk方法</li>
-<li>先按照512+4bytes写入packet,等packet64kb满了以后,向dataQueue队列添加,唤醒DataStreamer线程</li>
-<li>DataStreamer线程会调用setPipeline创建管道,机架感知,获取存储位置信息</li>
-<li>创建Sender线程调用send方法使用socket方式发送packet,发送一个packet就从dataQueue队列移除,然后添加到ackQueue队列</li>
-<li>同时启动了ResponseProcessor线程用来接收ack响应,存储成功后再从ackQueue队列移除该packet,不成功就把这个packet再次添加到dataQueue队列</li>
-</ol>
-<h5 id="yarn提交任务源码的了解"><a href="#yarn提交任务源码的了解" class="headerlink" title="yarn提交任务源码的了解"></a>yarn提交任务源码的了解</h5><ol>
-<li>在自定义的mr程序中,Driver驱动类中,job执行waitForCompletion方法的过程为例</li>
-<li>客户端向rm提交job,调用到submit方法,最终获取jobid,指定提交路径,即.staging路径,然后进入切片环节,即默认TextFileInputFormat类,然后生成job.split切片信息和job.xml配置信息还有jar包,准备工作做好进入真正提交任务流程</li>
-<li>rm启动am过程,上面提交完任务后,会拼接一个shell命令,rm执行这个命令就启动了am,在yarn环境下,对应的是MRAppMaster对象</li>
-<li>启动MRAppMaster类,执行main方法,会创建一个dispatcher调度器,然后把任务job放在yarn的queue队列中</li>
-<li>YarnChild类是队列中任务执行的类,执行该类main方法,创建Task对象后执行run方法,该Task对象有MapTask和ReduceTask两个实现类</li>
-<li>MapTask分为map阶段和sort阶段,最终调用到了我们自定义程序的Mapper的map方法</li>
-<li>ReduceTask分为copy阶段,sort阶段,reduce阶段,同样是最终调用到了我们自定义程序的Reducer的reduce方法</li>
-</ol>
-<h5 id="Shuffle工作机制"><a href="#Shuffle工作机制" class="headerlink" title="Shuffle工作机制"></a>Shuffle工作机制</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1 map方法对于数据进行一行一行的处理，得到的结果是kv对，调用collect方法，放入环形缓冲区</span><br><span class="line">2 放入环形缓冲区之前会打上分区标记，调用getPartitioner方法</span><br><span class="line">3 到达一定比例后开始溢写到磁盘，在溢写过程中会进行快排，即sortAndSpill</span><br><span class="line">4 这个环节可以预先进行map端聚合，即归约环节，减少进入reduce阶段的数据量；也可以进行压缩</span><br><span class="line">5 多个溢写的文件会进行多轮递归的归并排序，每一轮合并10个文件。最终形成一个file.out数据文件和file.out.index索引文件，即mergeParts方法</span><br><span class="line">6 reduce阶段的reducetask主动去拉取自己分区的数据，即copy环节</span><br><span class="line">7 由于可能来自于多个maptask文件，所以会优先内存其次磁盘的进行归并排序，sort环节</span><br><span class="line">8 合并以后shuffle过程就结束了，会针对每一个key的所有的数据执行reduce方法</span><br></pre></td></tr></table></figure>
-
-<h5 id="mr任务的排序"><a href="#mr任务的排序" class="headerlink" title="mr任务的排序"></a>mr任务的排序</h5><p>maptask和reducetask都会对key进行排序，是默认行为，所以key必须实现了排序</p>
-<p>默认是字典序，快排</p>
-<p>maptask两次排序；快排时先按照分区编号排序，再按照编号内部的key排序，</p>
-<p>reducetask一次排序</p>
-<h5 id="yarn调度策略对比"><a href="#yarn调度策略对比" class="headerlink" title="yarn调度策略对比"></a>yarn调度策略对比</h5><p>CDH默认公平调度器</p>
-<p>Apache默认容量调度器</p>
-<p>容量调度器和公平调度器的对比：</p>
-<p>相同点：都支持多队列，每个队列内部使用FIFO；每个队列可以设置资源的下限和上限；某个队列资源有剩余，可以暂时共享给其他队列；支持多用户和多程序运行</p>
-<p>不同点：对于队列资源的分配方式不同，容量调度器优先选择资源利用率低的队列，而公平调度器优先选择对资源的缺额比例大的队列；容量调度器队列内部的资源分配使用FIFO，DRF，而公平调度器额外还能使用FAIR</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://nfsp412.github.io/asuka.github.io/2018/03/01/bigdata001/" data-id="cm3ackt880001v8urd8or2h9u" data-title="Hadoop学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/asuka.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
 
 
 </section>
