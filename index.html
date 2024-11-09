@@ -550,137 +550,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://nfsp412.github.io/blog/2024/10/21/bigdata007/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/blog/images/header.jpg">
-      <meta itemprop="name" content="asuka">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Asuka的个人笔记">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/blog/2024/10/21/bigdata007/" class="post-title-link" itemprop="url">Clickhouse学习笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-10-21 11:24:38" itemprop="dateCreated datePublished" datetime="2024-10-21T11:24:38+08:00">2024-10-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-11-10 00:34:39" itemprop="dateModified" datetime="2024-11-10T00:34:39+08:00">2024-11-10</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本文是自己在学习Clickhouse过程中整理的一些基础笔记,仅做记录</p>
-<h5 id="clickhouse是什么"><a href="#clickhouse是什么" class="headerlink" title="clickhouse是什么"></a>clickhouse是什么</h5><p>基于c++编写,列式存储数据库,用于olap在线分析</p>
-<p>50mb-200mb每秒的写入速度</p>
-<p>每行数据100bytes估算,即50w-200w每秒的数据条数写入</p>
-<p>单表聚合查询速度特别快,测试比presto,impala,spark,hive,都要快</p>
-<p>并行处理能力强,单条查询语句利用整机cpu</p>
-<p>关联查询慢</p>
-<h5 id="clickhouse有哪些表引擎"><a href="#clickhouse有哪些表引擎" class="headerlink" title="clickhouse有哪些表引擎"></a>clickhouse有哪些表引擎</h5><p>TinyLog,不支持索引,没有并发控制,平时练习使用,用得少</p>
-<p>Memory,未压缩数据存储内存,不支持索引,数据量尽量限制在1亿行内,用得少</p>
-<p>MergeTree  ,以及衍生系列</p>
-<p>ReplacingMergeTree  </p>
-<p>SummingMergeTree  </p>
-<h5 id="分区的作用"><a href="#分区的作用" class="headerlink" title="分区的作用"></a>分区的作用</h5><p>partition by分区,目的主要是降低扫描的范围，优化查询速度  ,可选</p>
-<p>涉及跨分区的查询统计， ClickHouse 会以分区为单位并行处理  </p>
-<p>任何一个批次的数据写入都会产生一个临时分区，不会纳入任何一个已有的分区。写入<br>后的某个时刻（大概 10-15 分钟后）， ClickHouse 会自动执行合并操作（等不及也可以手动<br>通过 optimize 执行）  </p>
-<p>是可选项</p>
-<h5 id="主键的作用"><a href="#主键的作用" class="headerlink" title="主键的作用"></a>主键的作用</h5><p>提供一级索引,但是不是唯一性约束,一般根据where条件设置</p>
-<p>根据条件通过对主键进行某种形式的二分查找，能够定位到对应的 index granularity,避<br>免了全表扫描</p>
-<p>主键必须是 order by 字段的前缀字段  比如 order by 字段是 (id,sku_id) 那么主键必须是 id 或者(id,sku_id)    </p>
-<p>是可选项</p>
-<h5 id="排序的作用"><a href="#排序的作用" class="headerlink" title="排序的作用"></a>排序的作用</h5><p>最重要,必选项</p>
-<p>order by 设定了分区内的数据按照哪些字段顺序进行有序保存  </p>
-<h5 id="二级索引"><a href="#二级索引" class="headerlink" title="二级索引"></a>二级索引</h5><p>21版本支持二级索引,二级索引能够为非主键字段的查询发挥作用  </p>
-<p>sql写法INDEX a total_amount TYPE minmax GRANULARITY 5  </p>
-<p>GRANULARITY N 是设定二级索引对于一级索引粒度的粒度  </p>
-<p>查询where根据total_amount过滤时能触发二级索引</p>
-<h5 id="ttl"><a href="#ttl" class="headerlink" title="ttl"></a>ttl</h5><p>有列级别的ttl设置和表级别的ttl设置</p>
-<p>表级别的设置建表时指定,推荐使用分区的日期字段  </p>
-<p>例如 TTL toDate(create_time) + toIntervalDay(2)</p>
-<h5 id="ReplacingMergeTree"><a href="#ReplacingMergeTree" class="headerlink" title="ReplacingMergeTree"></a>ReplacingMergeTree</h5><p>多一个去重功能,例如根据分区时间日期字段去重</p>
-<p>数据的去重只会在合并的过程中出现  ,或者在insert插入时去重</p>
-<p>如果表经过了分区，去重只会在分区内部进行去重，不能执行跨分区的去重  </p>
-<p>适用于在后台清除重复的数据以节省空间，但是它不保证没有重复的数据出现  </p>
-<p>实际上按照order by指定的字段去重,相同的则按照插入顺序去重</p>
-<h5 id="SummingMergeTree"><a href="#SummingMergeTree" class="headerlink" title="SummingMergeTree"></a>SummingMergeTree</h5><p>按照指定字段汇总,必须是数值列,</p>
-<p>order by字段作为维度列</p>
-<p>汇总后其他字段保留第一条字段值</p>
-<p>不在一个分区的数据不会被聚合  </p>
-<p>只有在同一批次插入(新版本)或分片合并时才会进行聚合  </p>
-<p>设计时,唯一键值、流水号可以去掉，所有字段全部是维度、度量或者时间戳  </p>
-<h5 id="ReplicatedMergeTree"><a href="#ReplicatedMergeTree" class="headerlink" title="ReplicatedMergeTree"></a>ReplicatedMergeTree</h5><p>创建副本表,需要在不同节点分别建表,这样就相当于创建了副本表,数据能够同步,查询任意都可以查询到</p>
-<p>参数1写法:&#x2F;clickhouse&#x2F;tables&#x2F;库名&#x2F;表名&#x2F;{uuid}&#x2F;{shard},分片</p>
-<p>参数2写法:{replica},副本</p>
-<h5 id="Distributed"><a href="#Distributed" class="headerlink" title="Distributed"></a>Distributed</h5><p>通过分片把一份完整的数据进行切分，不同的分片分布到不同的节点上，再通过 Distributed 表引擎把数据拼接起来一同使用  ,本身不存储数据  </p>
-<p>分片键,即参数4,常用hiveHash(),可以设置为order by的字段</p>
-<h5 id="如何实现高性能update和delete"><a href="#如何实现高性能update和delete" class="headerlink" title="如何实现高性能update和delete"></a>如何实现高性能update和delete</h5><p>update:设置_version字段,插入时该字段自增1,查询时过滤该字段最大值,直接使用replacing merge tree更好??</p>
-<p>delete:设置_sign字段,不删除设置0,删除设置1,想要删除时设置1并且设置version字段自增1,然后过滤最大version和删除标记为0的即可</p>
-<h5 id="rollup-cube-total的区别"><a href="#rollup-cube-total的区别" class="headerlink" title="rollup,cube,total的区别"></a>rollup,cube,total的区别</h5><p>rollup从右到左去掉维度小计</p>
-<p>cube,先从右到左再从左到右,小计</p>
-<p>total直接总计</p>
-<h5 id="如何导出数据"><a href="#如何导出数据" class="headerlink" title="如何导出数据"></a>如何导出数据</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clickhouse-client --query &quot;select * from t_order_mt where create_time=&#x27;2020-06-01 12:00:00&#x27;&quot; --format CSVWithNames &gt; /opt/module/data/rs1.csv  </span><br></pre></td></tr></table></figure>
-
-<h5 id="clickhouse创建集群表使用uuid"><a href="#clickhouse创建集群表使用uuid" class="headerlink" title="clickhouse创建集群表使用uuid"></a>clickhouse创建集群表使用uuid</h5><p>目的是删除后可以立即创建同样的表名,因为zk节点信息没有那么快去及时删除</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://nfsp412.github.io/blog/2024/10/21/bigdata004/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1061,6 +930,137 @@
 <h5 id="如何自定义udtf函数"><a href="#如何自定义udtf函数" class="headerlink" title="如何自定义udtf函数"></a>如何自定义udtf函数</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">继承TableFunction,一般泛型设置Row类型,返回也是Row类型</span><br><span class="line">一般使用@FunctionHint注解指定类型信息</span><br><span class="line">在代码中createTemporaryFunction注册udtf函数</span><br><span class="line">或者add jar,然后create table function xxx with xxx</span><br><span class="line">然后结合侧视图使用</span><br><span class="line">from xxx left join lateral table(xx(xx)) as xx(xx,xx)</span><br></pre></td></tr></table></figure>
 
 <h5 id="sql查询语法"><a href="#sql查询语法" class="headerlink" title="sql查询语法"></a>sql查询语法</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">1 distinct语句</span><br><span class="line">状态实现,所以必须设置ttl,否则状态越来越大</span><br><span class="line"></span><br><span class="line">2 支持count(*)</span><br><span class="line">实现方式就是更新查询,即先删除再增加</span><br><span class="line"></span><br><span class="line">3 支持分组聚合查询,使用更新查询方式</span><br><span class="line"></span><br><span class="line">4 支持grouping sets,rollup,cube</span><br><span class="line">group by grouping sets (</span><br><span class="line">	(xx,xx,xx),</span><br><span class="line">	(...)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">5 支持开窗函数</span><br><span class="line">select xxx() over(partition by xxx order by xxx range/rows xxx)</span><br><span class="line">注意order by的字段只能是时间戳,而且只能升序</span><br><span class="line">range范围表示按照时间区间 range between interval &#x27;1&#x27; second preceding and current row</span><br><span class="line">rows范围表示按照行数 rows between xx and xx</span><br><span class="line">示例</span><br><span class="line">select</span><br><span class="line">  id,</span><br><span class="line">  et,</span><br><span class="line">  vc,</span><br><span class="line">  count(vc) over(</span><br><span class="line">    partition by id </span><br><span class="line">    order by et </span><br><span class="line">    range between interval &#x27;10&#x27; second preceding and current row</span><br><span class="line">  ) as cnt</span><br><span class="line">from ws;</span><br><span class="line">或者写作:</span><br><span class="line">select</span><br><span class="line">  id,</span><br><span class="line">  et,</span><br><span class="line">  vc,</span><br><span class="line">  count(vc) over w as cnt</span><br><span class="line">from ws</span><br><span class="line">window w as (</span><br><span class="line">  partition by id </span><br><span class="line">  order by et </span><br><span class="line">  range between interval &#x27;10&#x27; second preceding and current row</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">6 支持固定格式实现topN</span><br><span class="line">topN对应的查询是更新查询,因为topN的数据一直在动态变化,所以涉及到先删除再插入</span><br><span class="line">select</span><br><span class="line">	*</span><br><span class="line">from (</span><br><span class="line">	select</span><br><span class="line">		*,</span><br><span class="line">		row_number() over(partition by xxx order by xxx ) as rownum</span><br><span class="line">	from xxx</span><br><span class="line">)</span><br><span class="line">where </span><br><span class="line">	rownum &lt;= N</span><br><span class="line">	</span><br><span class="line">7 支持duplication去重</span><br><span class="line">语法格式和topN一样,区别在于order by的字段是时间类型字段</span><br><span class="line">所以和topN的区分主要看order by的字段,是时间类型字段则代表去重,如果是非时间类型字段则代表topN</span><br><span class="line">建议使用asc去重,这样可以避免-U+U</span><br><span class="line"></span><br><span class="line">8 支持常规join</span><br><span class="line">针对inner join,查询方式为追加查询,动态表转换成流是仅追加流,因为只有匹配到的数据才会输出,并且不会有撤回的情况,编码是+[L,R]</span><br><span class="line">针对左连接/右连接,主表的一边到达以后,无论从表是否有匹配数据,都会直接先输出+[L,R]或者+[L,null],如果右边到达了能够匹配的数据,则先撤销-[L,null]再插入+[L,R]</span><br><span class="line">full join类似</span><br><span class="line">注意事项</span><br><span class="line">	可以是不等值join,但是不推荐使用,压力大</span><br><span class="line">	等值join数据进行hash shuffle,按照关联条件发送下游</span><br><span class="line">	状态会无限增大,因为所有数据都需要存储在状态中,所以必须设置合适的ttl</span><br><span class="line">	撤销编码使用-D,插入编码使用+I,这里没有使用-U和+U</span><br><span class="line"></span><br><span class="line">9 支持间隔连接join</span><br><span class="line">针对间隔连接,全部都是+I,这个和inner join编码一致,不存在删除撤回	</span><br><span class="line">示例:</span><br><span class="line">	select</span><br><span class="line">	*</span><br><span class="line">	from ws,ws1</span><br><span class="line">	where ws.id=ws1.id</span><br><span class="line">	and ws.et between ws1.et-interval &#x27;2&#x27; second and ws1.et+interval &#x27;2&#x27; second;</span><br><span class="line"></span><br><span class="line">10 支持lookup join,相当于流数据和外部系统(例如hbase,redis,mysql等)进行join</span><br><span class="line">示例:</span><br><span class="line">	select</span><br><span class="line">	*</span><br><span class="line">	from tb1</span><br><span class="line">	join tb2_dim for system_time as of tb1.proc_time as tb2</span><br><span class="line">	on tb1.id=tb2.id</span><br><span class="line">	</span><br><span class="line">11 支持自定义函数udf,udtf,udaf</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://nfsp412.github.io/blog/2024/10/21/bigdata007/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/header.jpg">
+      <meta itemprop="name" content="asuka">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Asuka的个人笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2024/10/21/bigdata007/" class="post-title-link" itemprop="url">Clickhouse学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-10-21 11:24:38" itemprop="dateCreated datePublished" datetime="2024-10-21T11:24:38+08:00">2024-10-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-11-10 00:34:39" itemprop="dateModified" datetime="2024-11-10T00:34:39+08:00">2024-11-10</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本文是自己在学习Clickhouse过程中整理的一些基础笔记,仅做记录</p>
+<h5 id="clickhouse是什么"><a href="#clickhouse是什么" class="headerlink" title="clickhouse是什么"></a>clickhouse是什么</h5><p>基于c++编写,列式存储数据库,用于olap在线分析</p>
+<p>50mb-200mb每秒的写入速度</p>
+<p>每行数据100bytes估算,即50w-200w每秒的数据条数写入</p>
+<p>单表聚合查询速度特别快,测试比presto,impala,spark,hive,都要快</p>
+<p>并行处理能力强,单条查询语句利用整机cpu</p>
+<p>关联查询慢</p>
+<h5 id="clickhouse有哪些表引擎"><a href="#clickhouse有哪些表引擎" class="headerlink" title="clickhouse有哪些表引擎"></a>clickhouse有哪些表引擎</h5><p>TinyLog,不支持索引,没有并发控制,平时练习使用,用得少</p>
+<p>Memory,未压缩数据存储内存,不支持索引,数据量尽量限制在1亿行内,用得少</p>
+<p>MergeTree  ,以及衍生系列</p>
+<p>ReplacingMergeTree  </p>
+<p>SummingMergeTree  </p>
+<h5 id="分区的作用"><a href="#分区的作用" class="headerlink" title="分区的作用"></a>分区的作用</h5><p>partition by分区,目的主要是降低扫描的范围，优化查询速度  ,可选</p>
+<p>涉及跨分区的查询统计， ClickHouse 会以分区为单位并行处理  </p>
+<p>任何一个批次的数据写入都会产生一个临时分区，不会纳入任何一个已有的分区。写入<br>后的某个时刻（大概 10-15 分钟后）， ClickHouse 会自动执行合并操作（等不及也可以手动<br>通过 optimize 执行）  </p>
+<p>是可选项</p>
+<h5 id="主键的作用"><a href="#主键的作用" class="headerlink" title="主键的作用"></a>主键的作用</h5><p>提供一级索引,但是不是唯一性约束,一般根据where条件设置</p>
+<p>根据条件通过对主键进行某种形式的二分查找，能够定位到对应的 index granularity,避<br>免了全表扫描</p>
+<p>主键必须是 order by 字段的前缀字段  比如 order by 字段是 (id,sku_id) 那么主键必须是 id 或者(id,sku_id)    </p>
+<p>是可选项</p>
+<h5 id="排序的作用"><a href="#排序的作用" class="headerlink" title="排序的作用"></a>排序的作用</h5><p>最重要,必选项</p>
+<p>order by 设定了分区内的数据按照哪些字段顺序进行有序保存  </p>
+<h5 id="二级索引"><a href="#二级索引" class="headerlink" title="二级索引"></a>二级索引</h5><p>21版本支持二级索引,二级索引能够为非主键字段的查询发挥作用  </p>
+<p>sql写法INDEX a total_amount TYPE minmax GRANULARITY 5  </p>
+<p>GRANULARITY N 是设定二级索引对于一级索引粒度的粒度  </p>
+<p>查询where根据total_amount过滤时能触发二级索引</p>
+<h5 id="ttl"><a href="#ttl" class="headerlink" title="ttl"></a>ttl</h5><p>有列级别的ttl设置和表级别的ttl设置</p>
+<p>表级别的设置建表时指定,推荐使用分区的日期字段  </p>
+<p>例如 TTL toDate(create_time) + toIntervalDay(2)</p>
+<h5 id="ReplacingMergeTree"><a href="#ReplacingMergeTree" class="headerlink" title="ReplacingMergeTree"></a>ReplacingMergeTree</h5><p>多一个去重功能,例如根据分区时间日期字段去重</p>
+<p>数据的去重只会在合并的过程中出现  ,或者在insert插入时去重</p>
+<p>如果表经过了分区，去重只会在分区内部进行去重，不能执行跨分区的去重  </p>
+<p>适用于在后台清除重复的数据以节省空间，但是它不保证没有重复的数据出现  </p>
+<p>实际上按照order by指定的字段去重,相同的则按照插入顺序去重</p>
+<h5 id="SummingMergeTree"><a href="#SummingMergeTree" class="headerlink" title="SummingMergeTree"></a>SummingMergeTree</h5><p>按照指定字段汇总,必须是数值列,</p>
+<p>order by字段作为维度列</p>
+<p>汇总后其他字段保留第一条字段值</p>
+<p>不在一个分区的数据不会被聚合  </p>
+<p>只有在同一批次插入(新版本)或分片合并时才会进行聚合  </p>
+<p>设计时,唯一键值、流水号可以去掉，所有字段全部是维度、度量或者时间戳  </p>
+<h5 id="ReplicatedMergeTree"><a href="#ReplicatedMergeTree" class="headerlink" title="ReplicatedMergeTree"></a>ReplicatedMergeTree</h5><p>创建副本表,需要在不同节点分别建表,这样就相当于创建了副本表,数据能够同步,查询任意都可以查询到</p>
+<p>参数1写法:&#x2F;clickhouse&#x2F;tables&#x2F;库名&#x2F;表名&#x2F;{uuid}&#x2F;{shard},分片</p>
+<p>参数2写法:{replica},副本</p>
+<h5 id="Distributed"><a href="#Distributed" class="headerlink" title="Distributed"></a>Distributed</h5><p>通过分片把一份完整的数据进行切分，不同的分片分布到不同的节点上，再通过 Distributed 表引擎把数据拼接起来一同使用  ,本身不存储数据  </p>
+<p>分片键,即参数4,常用hiveHash(),可以设置为order by的字段</p>
+<h5 id="如何实现高性能update和delete"><a href="#如何实现高性能update和delete" class="headerlink" title="如何实现高性能update和delete"></a>如何实现高性能update和delete</h5><p>update:设置_version字段,插入时该字段自增1,查询时过滤该字段最大值,直接使用replacing merge tree更好??</p>
+<p>delete:设置_sign字段,不删除设置0,删除设置1,想要删除时设置1并且设置version字段自增1,然后过滤最大version和删除标记为0的即可</p>
+<h5 id="rollup-cube-total的区别"><a href="#rollup-cube-total的区别" class="headerlink" title="rollup,cube,total的区别"></a>rollup,cube,total的区别</h5><p>rollup从右到左去掉维度小计</p>
+<p>cube,先从右到左再从左到右,小计</p>
+<p>total直接总计</p>
+<h5 id="如何导出数据"><a href="#如何导出数据" class="headerlink" title="如何导出数据"></a>如何导出数据</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clickhouse-client --query &quot;select * from t_order_mt where create_time=&#x27;2020-06-01 12:00:00&#x27;&quot; --format CSVWithNames &gt; /opt/module/data/rs1.csv  </span><br></pre></td></tr></table></figure>
+
+<h5 id="clickhouse创建集群表使用uuid"><a href="#clickhouse创建集群表使用uuid" class="headerlink" title="clickhouse创建集群表使用uuid"></a>clickhouse创建集群表使用uuid</h5><p>目的是删除后可以立即创建同样的表名,因为zk节点信息没有那么快去及时删除</p>
 
       
     </div>
