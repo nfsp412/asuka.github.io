@@ -1,15 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>Flink学习笔记 | Asuka的个人笔记</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"nfsp412.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
   <meta name="description" content="本文是自己在学习Flink过程中整理的一些基础笔记,仅做记录 概述flink是什么1234大数据流式处理引擎有状态的流式处理低延迟,高吞吐,结果准确,容错性良好,精确一次,高可用,能解决乱序问题能做到每秒百万条数据,毫秒级延迟  flink的分层api1234flink sqlflink cepdatastream(注意区分spark的dataset和dataframe)有状态的流处理proces">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flink学习笔记">
-<meta property="og:url" content="https://nfsp412.github.io/asuka.github.io/2024/10/21/bigdata004/index.html">
+<meta property="og:url" content="https://nfsp412.github.io/blog/2024/10/21/bigdata004/index.html">
 <meta property="og:site_name" content="Asuka的个人笔记">
 <meta property="og:description" content="本文是自己在学习Flink过程中整理的一些基础笔记,仅做记录 概述flink是什么1234大数据流式处理引擎有状态的流式处理低延迟,高吞吐,结果准确,容错性良好,精确一次,高可用,能解决乱序问题能做到每秒百万条数据,毫秒级延迟  flink的分层api1234flink sqlflink cepdatastream(注意区分spark的dataset和dataframe)有状态的流处理proces">
 <meta property="og:locale" content="zh_CN">
@@ -18,81 +32,188 @@
 <meta property="article:author" content="asuka">
 <meta property="article:tag" content="大数据">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/asuka.github.io/atom.xml" title="Asuka的个人笔记" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/asuka.github.io/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/asuka.github.io/css/style.css">
 
-  
-    
-<link rel="stylesheet" href="/asuka.github.io/fancybox/jquery.fancybox.min.css">
+<link rel="canonical" href="https://nfsp412.github.io/blog/2024/10/21/bigdata004/">
 
-  
-  
-<meta name="generator" content="Hexo 7.3.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/asuka.github.io/" id="logo">Asuka的个人笔记</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/asuka.github.io/">Home</a>
-        
-          <a class="main-nav-link" href="/asuka.github.io/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/asuka.github.io/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://nfsp412.github.io/asuka.github.io"></form>
-      </div>
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Flink学习笔记 | Asuka的个人笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</header>
 
-      <div class="outer">
-        <section id="main"><article id="post-bigdata004" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/asuka.github.io/2024/10/21/bigdata004/" class="article-date">
-  <time class="dt-published" datetime="2024-10-21T03:24:38.000Z" itemprop="datePublished">2024-10-21</time>
-</a>
-    
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Asuka的个人笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      Flink学习笔记
-    </h1>
-  
 
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://nfsp412.github.io/blog/2024/10/21/bigdata004/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/header.jpg">
+      <meta itemprop="name" content="asuka">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Asuka的个人笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flink学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-10-21 11:24:38" itemprop="dateCreated datePublished" datetime="2024-10-21T11:24:38+08:00">2024-10-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-11-10 00:21:44" itemprop="dateModified" datetime="2024-11-10T00:21:44+08:00">2024-11-10</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>28k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>26 分钟</span>
+            </span>
+
+        </div>
       </header>
+
     
-    <div class="e-content article-entry" itemprop="articleBody">
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
         <p>本文是自己在学习Flink过程中整理的一些基础笔记,仅做记录</p>
 <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h5 id="flink是什么"><a href="#flink是什么" class="headerlink" title="flink是什么"></a>flink是什么</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">大数据流式处理引擎</span><br><span class="line">有状态的流式处理</span><br><span class="line">低延迟,高吞吐,结果准确,容错性良好,精确一次,高可用,能解决乱序问题</span><br><span class="line">能做到每秒百万条数据,毫秒级延迟</span><br></pre></td></tr></table></figure>
@@ -416,150 +537,200 @@
 
 <h5 id="sql查询语法"><a href="#sql查询语法" class="headerlink" title="sql查询语法"></a>sql查询语法</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">1 distinct语句</span><br><span class="line">状态实现,所以必须设置ttl,否则状态越来越大</span><br><span class="line"></span><br><span class="line">2 支持count(*)</span><br><span class="line">实现方式就是更新查询,即先删除再增加</span><br><span class="line"></span><br><span class="line">3 支持分组聚合查询,使用更新查询方式</span><br><span class="line"></span><br><span class="line">4 支持grouping sets,rollup,cube</span><br><span class="line">group by grouping sets (</span><br><span class="line">	(xx,xx,xx),</span><br><span class="line">	(...)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">5 支持开窗函数</span><br><span class="line">select xxx() over(partition by xxx order by xxx range/rows xxx)</span><br><span class="line">注意order by的字段只能是时间戳,而且只能升序</span><br><span class="line">range范围表示按照时间区间 range between interval &#x27;1&#x27; second preceding and current row</span><br><span class="line">rows范围表示按照行数 rows between xx and xx</span><br><span class="line">示例</span><br><span class="line">select</span><br><span class="line">  id,</span><br><span class="line">  et,</span><br><span class="line">  vc,</span><br><span class="line">  count(vc) over(</span><br><span class="line">    partition by id </span><br><span class="line">    order by et </span><br><span class="line">    range between interval &#x27;10&#x27; second preceding and current row</span><br><span class="line">  ) as cnt</span><br><span class="line">from ws;</span><br><span class="line">或者写作:</span><br><span class="line">select</span><br><span class="line">  id,</span><br><span class="line">  et,</span><br><span class="line">  vc,</span><br><span class="line">  count(vc) over w as cnt</span><br><span class="line">from ws</span><br><span class="line">window w as (</span><br><span class="line">  partition by id </span><br><span class="line">  order by et </span><br><span class="line">  range between interval &#x27;10&#x27; second preceding and current row</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">6 支持固定格式实现topN</span><br><span class="line">topN对应的查询是更新查询,因为topN的数据一直在动态变化,所以涉及到先删除再插入</span><br><span class="line">select</span><br><span class="line">	*</span><br><span class="line">from (</span><br><span class="line">	select</span><br><span class="line">		*,</span><br><span class="line">		row_number() over(partition by xxx order by xxx ) as rownum</span><br><span class="line">	from xxx</span><br><span class="line">)</span><br><span class="line">where </span><br><span class="line">	rownum &lt;= N</span><br><span class="line">	</span><br><span class="line">7 支持duplication去重</span><br><span class="line">语法格式和topN一样,区别在于order by的字段是时间类型字段</span><br><span class="line">所以和topN的区分主要看order by的字段,是时间类型字段则代表去重,如果是非时间类型字段则代表topN</span><br><span class="line">建议使用asc去重,这样可以避免-U+U</span><br><span class="line"></span><br><span class="line">8 支持常规join</span><br><span class="line">针对inner join,查询方式为追加查询,动态表转换成流是仅追加流,因为只有匹配到的数据才会输出,并且不会有撤回的情况,编码是+[L,R]</span><br><span class="line">针对左连接/右连接,主表的一边到达以后,无论从表是否有匹配数据,都会直接先输出+[L,R]或者+[L,null],如果右边到达了能够匹配的数据,则先撤销-[L,null]再插入+[L,R]</span><br><span class="line">full join类似</span><br><span class="line">注意事项</span><br><span class="line">	可以是不等值join,但是不推荐使用,压力大</span><br><span class="line">	等值join数据进行hash shuffle,按照关联条件发送下游</span><br><span class="line">	状态会无限增大,因为所有数据都需要存储在状态中,所以必须设置合适的ttl</span><br><span class="line">	撤销编码使用-D,插入编码使用+I,这里没有使用-U和+U</span><br><span class="line"></span><br><span class="line">9 支持间隔连接join</span><br><span class="line">针对间隔连接,全部都是+I,这个和inner join编码一致,不存在删除撤回	</span><br><span class="line">示例:</span><br><span class="line">	select</span><br><span class="line">	*</span><br><span class="line">	from ws,ws1</span><br><span class="line">	where ws.id=ws1.id</span><br><span class="line">	and ws.et between ws1.et-interval &#x27;2&#x27; second and ws1.et+interval &#x27;2&#x27; second;</span><br><span class="line"></span><br><span class="line">10 支持lookup join,相当于流数据和外部系统(例如hbase,redis,mysql等)进行join</span><br><span class="line">示例:</span><br><span class="line">	select</span><br><span class="line">	*</span><br><span class="line">	from tb1</span><br><span class="line">	join tb2_dim for system_time as of tb1.proc_time as tb2</span><br><span class="line">	on tb1.id=tb2.id</span><br><span class="line">	</span><br><span class="line">11 支持自定义函数udf,udtf,udaf</span><br></pre></td></tr></table></figure>
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/21/bigdata004/" data-id="cm3ael382000a5cur4ws75mq3" data-title="Flink学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/asuka.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag"># 大数据</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2024/10/16/bigdata003/" rel="prev" title="Spark学习笔记">
+      <i class="fa fa-chevron-left"></i> Spark学习笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/2024/10/21/bigdata007/" rel="next" title="Clickhouse学习笔记">
+      Clickhouse学习笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">flink是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E7%9A%84%E5%88%86%E5%B1%82api"><span class="nav-number">1.0.0.0.2.</span> <span class="nav-text">flink的分层api</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Flink%E7%9A%84%E6%B5%81%E6%89%B9API%E5%88%86%E5%88%AB%E6%98%AF"><span class="nav-number">1.0.0.0.3.</span> <span class="nav-text">Flink的流批API分别是</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E6%A8%A1%E6%8B%9F%E8%AF%BB%E5%8F%96%E6%97%A0%E7%95%8C%E6%B5%81%E6%95%B0%E6%8D%AE"><span class="nav-number">1.0.0.0.4.</span> <span class="nav-text">flink模拟读取无界流数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E9%87%8ADataFrame%E7%9A%84WordCount%E7%9A%84%E7%BB%93%E6%9E%9C"><span class="nav-number">1.0.0.0.5.</span> <span class="nav-text">如何解释DataFrame的WordCount的结果?</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-number">2.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2-on-yarn"><span class="nav-number">2.0.0.0.1.</span> <span class="nav-text">集群部署 on yarn</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2-on-standalone"><span class="nav-number">2.0.0.0.2.</span> <span class="nav-text">集群部署 on standalone</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E4%B8%89%E7%A7%8D%E9%83%A8%E7%BD%B2%E6%A8%A1%E5%BC%8F%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.0.0.0.3.</span> <span class="nav-text">flink三种部署模式是什么?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Flink%E7%BB%84%E4%BB%B6%E6%9E%B6%E6%9E%84"><span class="nav-number">2.0.0.0.4.</span> <span class="nav-text">Flink组件架构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#POM%E6%96%87%E4%BB%B6%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">2.0.0.0.5.</span> <span class="nav-text">POM文件注意事项</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.0.0.0.6.</span> <span class="nav-text">历史服务器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#webUI%E7%AB%AF%E5%8F%A3%E6%98%AF"><span class="nav-number">2.0.0.0.7.</span> <span class="nav-text">webUI端口是?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E5%BA%A6%E6%9C%89%E5%87%A0%E7%A7%8D%E8%AE%BE%E7%BD%AE%E6%96%B9%E5%BC%8F"><span class="nav-number">2.0.0.0.8.</span> <span class="nav-text">并行度有几种设置方式?</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">3.</span> <span class="nav-text">核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%9B%E7%A7%8D%E6%B5%81%E5%9B%BE"><span class="nav-number">3.0.0.0.1.</span> <span class="nav-text">四种流图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AE%97%E5%AD%90%E9%93%BE"><span class="nav-number">3.0.0.0.2.</span> <span class="nav-text">算子链</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E7%BB%84"><span class="nav-number">3.0.0.0.3.</span> <span class="nav-text">共享组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A%E6%8F%90%E4%BA%A4%E6%B5%81%E7%A8%8B-yarn-%E5%8D%95%E4%BD%9C%E4%B8%9A%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.0.0.0.4.</span> <span class="nav-text">作业提交流程(yarn 单作业模式)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#yarn%E5%8A%A8%E6%80%81%E7%94%B3%E8%AF%B7%E8%B5%84%E6%BA%90%E6%97%B6%E7%94%B3%E8%AF%B7TM%E6%95%B0%E9%87%8F%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97"><span class="nav-number">3.0.0.0.5.</span> <span class="nav-text">yarn动态申请资源时申请TM数量如何计算?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#slot%E5%92%8C%E5%B9%B6%E8%A1%8C%E5%BA%A6%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">3.0.0.0.6.</span> <span class="nav-text">slot和并行度的关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%83%8C%E5%8E%8B%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D"><span class="nav-number">3.0.0.0.7.</span> <span class="nav-text">背压是什么意思?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E6%97%B6%E9%97%B4%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D"><span class="nav-number">3.0.0.0.8.</span> <span class="nav-text">事件时间是什么意思?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B0%B4%E4%BD%8D%E7%BA%BF%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D"><span class="nav-number">3.0.0.0.9.</span> <span class="nav-text">水位线是什么意思?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AA%97%E5%8F%A3%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">3.0.0.0.10.</span> <span class="nav-text">窗口是什么?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%8A%B6%E6%80%81"><span class="nav-number">3.0.0.0.11.</span> <span class="nav-text">什么是状态</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E5%90%8E%E7%AB%AF%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">3.0.0.0.12.</span> <span class="nav-text">状态后端是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E7%82%B9%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">3.0.0.0.13.</span> <span class="nav-text">检查点是什么?</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DataStream"><span class="nav-number">4.</span> <span class="nav-text">DataStream</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Source"><span class="nav-number">4.1.</span> <span class="nav-text">Source</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Source%E6%9C%89%E5%93%AA%E4%BA%9B%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.1.0.0.1.</span> <span class="nav-text">Source有哪些类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E7%9A%84kafkasource%E7%9A%84offset%E6%B6%88%E8%B4%B9%E7%AD%96%E7%95%A5"><span class="nav-number">4.1.0.0.2.</span> <span class="nav-text">flink的kafkasource的offset消费策略?</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transfer"><span class="nav-number">4.2.</span> <span class="nav-text">transfer</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#flatmap%E7%AE%97%E5%AD%90%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="nav-number">4.2.0.0.1.</span> <span class="nav-text">flatmap算子如何使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E7%AE%97%E5%AD%90"><span class="nav-number">4.2.0.0.2.</span> <span class="nav-text">分区算子</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#min%E5%92%8CminBy%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.2.0.0.3.</span> <span class="nav-text">min和minBy的区别?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%85%A8%E5%B1%80%E5%88%86%E5%8C%BA"><span class="nav-number">4.2.0.0.4.</span> <span class="nav-text">如何实现全局分区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E7%9A%84%E5%AF%8C%E5%87%BD%E6%95%B0%E7%B1%BB%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95"><span class="nav-number">4.2.0.0.5.</span> <span class="nav-text">flink的富函数类有哪些方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E7%9A%84%E7%89%A9%E7%90%86%E5%88%86%E5%8C%BA%E6%96%B9%E6%B3%95%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">4.2.0.0.6.</span> <span class="nav-text">flink的物理分区方法有哪些</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%B8%8A%E4%BC%A0hdfs%E6%8F%90%E4%BA%A4%E4%BD%9C%E4%B8%9A"><span class="nav-number">4.2.0.0.7.</span> <span class="nav-text">如何上传hdfs提交作业?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E4%B8%AAmain%E6%96%B9%E6%B3%95%E5%8F%AF%E4%BB%A5%E7%94%9F%E6%88%90%E5%87%A0%E4%B8%AAjob"><span class="nav-number">4.2.0.0.8.</span> <span class="nav-text">一个main方法可以生成几个job?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%89%B9%E5%A4%84%E7%90%86"><span class="nav-number">4.2.0.0.9.</span> <span class="nav-text">flink如何实现批处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8POJO%E7%B1%BB"><span class="nav-number">4.2.0.0.10.</span> <span class="nav-text">flink如何使用POJO类?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#IDEA%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E5%B8%A6web%E7%95%8C%E9%9D%A2%E4%BB%BB%E5%8A%A1"><span class="nav-number">4.2.0.0.11.</span> <span class="nav-text">IDEA如何创建带web界面任务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E6%B3%9B%E5%9E%8B%E6%93%A6%E9%99%A4%E9%97%AE%E9%A2%98"><span class="nav-number">4.2.0.0.12.</span> <span class="nav-text">如何解决泛型擦除问题?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PVUV%E6%8C%87%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">4.2.0.0.13.</span> <span class="nav-text">PVUV指的是什么</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%80%9D%E8%B7%AF"><span class="nav-number">4.3.</span> <span class="nav-text">常见思路</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%BB%9F%E8%AE%A1%E6%89%80%E6%9C%89%E7%94%A8%E6%88%B7%E4%B8%AD%E8%AE%BF%E9%97%AE%E9%A2%91%E6%AC%A1%E6%9C%80%E9%AB%98%E7%9A%84%E9%82%A3%E4%B8%AA"><span class="nav-number">4.3.0.0.1.</span> <span class="nav-text">如何统计所有用户中访问频次最高的那个</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1-10-%E7%A7%92%E9%92%9F%E7%9A%84-url-%E6%B5%8F%E8%A7%88%E9%87%8F%EF%BC%8C%E6%AF%8F-5-%E7%A7%92%E9%92%9F%E6%9B%B4%E6%96%B0%E4%B8%80%E6%AC%A1"><span class="nav-number">4.3.0.0.2.</span> <span class="nav-text">统计 10 秒钟的 url 浏览量，每 5 秒钟更新一次</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E6%AF%8F%E4%B8%AA%E7%94%A8%E6%88%B7%E7%9A%84-pv%EF%BC%8C%E9%9A%94%E4%B8%80%E6%AE%B5%E6%97%B6%E9%97%B4%EF%BC%8810s%EF%BC%89%E8%BE%93%E5%87%BA%E4%B8%80%E6%AC%A1%E7%BB%93%E6%9E%9C"><span class="nav-number">4.3.0.0.3.</span> <span class="nav-text">统计每个用户的 pv，隔一段时间（10s）输出一次结果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E4%BA%86%E6%AF%8F%E4%B8%AA-url-%E5%9C%A8-10-%E7%A7%92%E6%BB%9A%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9A%84-pv-%E6%8C%87%E6%A0%87%EF%BC%8C%E6%AF%8F%E9%9A%94-1-%E7%A7%92%E9%92%9F%E8%A7%A6%E5%8F%91%E4%B8%80%E6%AC%A1%E7%AA%97%E5%8F%A3%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="nav-number">4.3.0.0.4.</span> <span class="nav-text">计算了每个 url 在 10 秒滚动窗口的 pv 指标，每隔 1 秒钟触发一次窗口的计算</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E6%9C%80%E8%BF%9110-%E7%A7%92%E9%92%9F%E5%86%85%E6%9C%80%E7%83%AD%E9%97%A8%E7%9A%842%E4%B8%AA-url-%E9%93%BE%E6%8E%A5%EF%BC%8C%E5%B9%B6%E4%B8%94%E6%AF%8F-5-%E7%A7%92%E9%92%9F%E6%9B%B4%E6%96%B0%E4%B8%80%E6%AC%A1"><span class="nav-number">4.3.0.0.5.</span> <span class="nav-text">统计最近10 秒钟内最热门的2个 url 链接，并且每 5 秒钟更新一次</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#app%E7%9A%84%E6%94%AF%E4%BB%98%E5%92%8C%E7%AC%AC%E4%B8%89%E6%96%B9%E7%9A%84%E6%94%AF%E4%BB%98%E8%BF%9B%E8%A1%8C5%E7%A7%92%E5%86%85%E7%9A%84%E5%8C%B9%E9%85%8D"><span class="nav-number">4.3.0.0.6.</span> <span class="nav-text">app的支付和第三方的支付进行5秒内的匹配</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%A4%E6%9D%A1%E6%B5%81inner-join-%E4%B8%8D%E5%88%86%E7%AA%97%E5%8F%A3"><span class="nav-number">4.3.0.0.7.</span> <span class="nav-text">如何实现两条流inner join,不分窗口</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%99%E9%85%8D%E7%BD%AE%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.3.0.0.8.</span> <span class="nav-text">动态规则配置的实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B010%E7%A7%92%E6%BB%9A%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%BB%9F%E8%AE%A1%E6%AF%8F%E4%B8%AAurl%E7%9A%84pv%E5%80%BC"><span class="nav-number">4.3.0.0.9.</span> <span class="nav-text">如何实现10秒滚动窗口统计每个url的pv值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AE%97%E5%AD%90%E7%8A%B6%E6%80%81%E7%9A%84%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="nav-number">4.3.0.0.10.</span> <span class="nav-text">算子状态的应用案例</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sink"><span class="nav-number">4.4.</span> <span class="nav-text">Sink</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#sink%E6%9C%89%E5%93%AA%E4%BA%9B%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.4.0.0.1.</span> <span class="nav-text">sink有哪些类型</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%92%8C%E7%AA%97%E5%8F%A3"><span class="nav-number">4.5.</span> <span class="nav-text">时间和窗口</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B0%B4%E4%BD%8D%E7%BA%BF%E7%9A%84%E5%91%A8%E6%9C%9F%E6%97%B6%E9%97%B4%E6%8C%87%E7%9A%84%E6%98%AF"><span class="nav-number">4.5.0.0.1.</span> <span class="nav-text">水位线的周期时间指的是?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B0%B4%E4%BD%8D%E7%BA%BF%E7%94%9F%E6%88%90%E7%9A%84%E7%AE%97%E5%AD%90%E5%92%8C%E4%BD%8D%E7%BD%AE"><span class="nav-number">4.5.0.0.2.</span> <span class="nav-text">水位线生成的算子和位置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AA%97%E5%8F%A3%E6%9C%89%E5%93%AA%E4%BA%9B%E5%88%86%E7%B1%BB"><span class="nav-number">4.5.0.0.3.</span> <span class="nav-text">窗口有哪些分类?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AA%97%E5%8F%A3%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">4.5.0.0.4.</span> <span class="nav-text">窗口聚合函数有哪些</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E8%BF%9F%E5%88%B0%E6%95%B0%E6%8D%AE"><span class="nav-number">4.5.0.0.5.</span> <span class="nav-text">flink如何处理迟到数据?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">4.5.0.0.6.</span> <span class="nav-text">聚合函数有哪些</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AA%97%E5%8F%A3%E6%97%B6%E9%97%B4%E5%92%8C%E6%B0%B4%E4%BD%8D%E7%BA%BF%E6%97%B6%E9%97%B4"><span class="nav-number">4.5.0.0.7.</span> <span class="nav-text">窗口时间和水位线时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E7%AA%97%E5%8F%A3%E5%92%8C%E9%9D%9E%E6%8C%89%E9%94%AE%E5%88%86%E5%8C%BA%E7%AA%97%E5%8F%A3"><span class="nav-number">4.5.0.0.8.</span> <span class="nav-text">全局窗口和非按键分区窗口</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Process-Function"><span class="nav-number">5.</span> <span class="nav-text">Process Function</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ProcessFunction%E6%9C%89%E5%93%AA%E4%BA%9B%E5%88%86%E7%B1%BB"><span class="nav-number">5.0.0.0.1.</span> <span class="nav-text">ProcessFunction有哪些分类?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E6%9C%8D%E5%8A%A1%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">5.0.0.0.2.</span> <span class="nav-text">定时服务是什么?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B0%B4%E4%BD%8D%E7%BA%BF%E7%9C%8B%E8%B5%B7%E6%9D%A5%E6%AF%94%E6%97%B6%E9%97%B4%E6%88%B3%E5%BB%B6%E8%BF%9F%E4%B8%80%E4%BA%9B"><span class="nav-number">5.0.0.0.3.</span> <span class="nav-text">为什么水位线看起来比时间戳延迟一些</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%88%E6%B5%81%E6%93%8D%E4%BD%9C"><span class="nav-number">5.1.</span> <span class="nav-text">合流操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E5%90%88%E6%B5%81%E6%93%8D%E4%BD%9C"><span class="nav-number">5.1.0.0.1.</span> <span class="nav-text">flink如何进行合流操作?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%88%86%E6%B5%81%E6%93%8D%E4%BD%9C"><span class="nav-number">5.1.0.0.2.</span> <span class="nav-text">flink如何实现分流操作?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flink%E7%9A%84%E7%AA%97%E5%8F%A3join%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">5.1.0.0.3.</span> <span class="nav-text">flink的窗口join有哪些</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E7%BC%96%E7%A8%8B"><span class="nav-number">5.2.</span> <span class="nav-text">状态编程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8C%89%E9%94%AE%E5%88%86%E5%8C%BA%E7%8A%B6%E6%80%81%E6%9C%89%E5%93%AA%E4%BA%9B-%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95"><span class="nav-number">5.2.0.0.1.</span> <span class="nav-text">按键分区状态有哪些,有哪些方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E5%8F%98%E9%87%8F%E5%92%8C%E6%8C%89%E9%94%AE%E5%88%86%E5%8C%BA%E7%8A%B6%E6%80%81%E5%8F%98%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">5.2.0.0.2.</span> <span class="nav-text">本地变量和按键分区状态变量的区别?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ReducingState%E5%92%8CAggregatingState%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">5.2.0.0.3.</span> <span class="nav-text">ReducingState和AggregatingState的区别?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E7%9A%84%E7%94%9F%E5%AD%98%E6%97%B6%E9%97%B4TTL"><span class="nav-number">5.2.0.0.4.</span> <span class="nav-text">状态的生存时间TTL</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AE%97%E5%AD%90%E7%8A%B6%E6%80%81%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">5.2.0.0.5.</span> <span class="nav-text">算子状态有哪些</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E5%90%8E%E7%AB%AF%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">5.2.0.0.6.</span> <span class="nav-text">状态后端的分类</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%B9%E9%94%99%E6%9C%BA%E5%88%B6"><span class="nav-number">6.</span> <span class="nav-text">容错机制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E7%82%B9%E5%92%8C%E4%BF%9D%E5%AD%98%E7%82%B9%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">6.0.0.0.1.</span> <span class="nav-text">检查点和保存点的区别?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flink-kafka%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%B2%BE%E7%A1%AE%E4%B8%80%E6%AC%A1"><span class="nav-number">6.0.0.0.2.</span> <span class="nav-text">flink+kafka如何保证精确一次</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Table-API-SQL"><span class="nav-number">7.</span> <span class="nav-text">Table API &amp; SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A1%A8%E7%8E%AF%E5%A2%83%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8%E5%A4%84"><span class="nav-number">7.0.0.0.1.</span> <span class="nav-text">表环境有什么用处</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%A1%A8-%E8%A7%86%E5%9B%BE%E7%9A%84%E8%AF%AD%E6%B3%95"><span class="nav-number">7.0.0.0.2.</span> <span class="nav-text">创建表&#x2F;视图的语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A1%A8%E5%92%8C%E6%B5%81%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="nav-number">7.0.0.0.3.</span> <span class="nav-text">表和流的转换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Row%E7%B1%BB%E5%9E%8B%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="nav-number">7.0.0.0.4.</span> <span class="nav-text">Row类型如何使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E6%97%B6%E9%97%B4%E5%92%8C%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89"><span class="nav-number">7.0.0.0.5.</span> <span class="nav-text">事件时间和处理时间如何定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AA%97%E5%8F%A3%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89"><span class="nav-number">7.0.0.0.6.</span> <span class="nav-text">窗口如何定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%99%A8%E7%A7%8D%E7%B1%BB%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">7.0.0.0.7.</span> <span class="nav-text">连接器种类有哪些</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sql%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="nav-number">7.0.0.0.8.</span> <span class="nav-text">sql客户端如何使用?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sql%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE"><span class="nav-number">7.0.0.0.9.</span> <span class="nav-text">sql客户端的常用配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8Csql%E6%96%87%E4%BB%B6"><span class="nav-number">7.0.0.0.10.</span> <span class="nav-text">如何执行sql文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#topn%E5%92%8C%E5%8E%BB%E9%87%8D%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%9C%89%E5%95%A5%E5%8C%BA%E5%88%AB"><span class="nav-number">7.0.0.0.11.</span> <span class="nav-text">topn和去重的实现方式有啥区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#lookup-join%E5%A6%82%E4%BD%95%E4%B9%A6%E5%86%99"><span class="nav-number">7.0.0.0.12.</span> <span class="nav-text">lookup join如何书写</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89udtf%E5%87%BD%E6%95%B0"><span class="nav-number">7.0.0.0.13.</span> <span class="nav-text">如何自定义udtf函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sql%E6%9F%A5%E8%AF%A2%E8%AF%AD%E6%B3%95"><span class="nav-number">7.0.0.0.14.</span> <span class="nav-text">sql查询语法</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="asuka"
+      src="/blog/images/header.jpg">
+  <p class="site-author-name" itemprop="name">asuka</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/blog/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:nfsp412@gmail.com" title="E-Mail → mailto:nfsp412@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">asuka</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
     </footer>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/asuka.github.io/2024/10/23/bigdata006/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          HBase学习笔记
-        
-      </div>
-    </a>
-  
-  
-    <a href="/asuka.github.io/2024/10/21/bigdata007/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">Clickhouse学习笔记</div>
-    </a>
-  
-</nav>
 
   
-</article>
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blog/js/utils.js"></script>
+
+<script src="/blog/js/motion.js"></script>
 
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/asuka.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
-    </div>
-  </div>
+<script src="/blog/js/schemes/pisces.js"></script>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/asuka.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a>
-    </div>
-  </div>
+<script src="/blog/js/next-boot.js"></script>
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/asuka.github.io/archives/2024/10/">十月 2024</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/asuka.github.io/2024/10/24/bigdata005/">Kafka学习笔记</a>
-          </li>
-        
-          <li>
-            <a href="/asuka.github.io/2024/10/23/bigdata006/">HBase学习笔记</a>
-          </li>
-        
-          <li>
-            <a href="/asuka.github.io/2024/10/21/bigdata004/">Flink学习笔记</a>
-          </li>
-        
-          <li>
-            <a href="/asuka.github.io/2024/10/21/bigdata007/">Clickhouse学习笔记</a>
-          </li>
-        
-          <li>
-            <a href="/asuka.github.io/2024/10/16/bigdata003/">Spark学习笔记</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2024 asuka<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/asuka.github.io/" class="mobile-nav-link">Home</a>
-  
-    <a href="/asuka.github.io/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/asuka.github.io/js/jquery-3.6.4.min.js"></script>
 
 
 
   
-<script src="/asuka.github.io/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/asuka.github.io/js/script.js"></script>
 
 
 
 
 
-  </div>
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
 </body>
 </html>

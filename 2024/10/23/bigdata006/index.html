@@ -1,15 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>HBase学习笔记 | Asuka的个人笔记</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"nfsp412.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
   <meta name="description" content="本文是自己在学习HBase过程中整理的一些基础笔记,仅做记录 hbase是什么以hdfs存储数据,分布式,nosql数据库 数据存储稀疏,多维度 整体按照rowkey字典序排序 不同行的数据有不同的列 物理存储结构为rowkey+列族+字段名key+字段值value+时间戳+类型 hbase的一些概念namespace,类比数据库,默认default table,类比数据表,但是只需要声明列族,不">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HBase学习笔记">
-<meta property="og:url" content="https://nfsp412.github.io/asuka.github.io/2024/10/23/bigdata006/index.html">
+<meta property="og:url" content="https://nfsp412.github.io/blog/2024/10/23/bigdata006/index.html">
 <meta property="og:site_name" content="Asuka的个人笔记">
 <meta property="og:description" content="本文是自己在学习HBase过程中整理的一些基础笔记,仅做记录 hbase是什么以hdfs存储数据,分布式,nosql数据库 数据存储稀疏,多维度 整体按照rowkey字典序排序 不同行的数据有不同的列 物理存储结构为rowkey+列族+字段名key+字段值value+时间戳+类型 hbase的一些概念namespace,类比数据库,默认default table,类比数据表,但是只需要声明列族,不">
 <meta property="og:locale" content="zh_CN">
@@ -18,81 +32,188 @@
 <meta property="article:author" content="asuka">
 <meta property="article:tag" content="大数据">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/asuka.github.io/atom.xml" title="Asuka的个人笔记" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/asuka.github.io/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/asuka.github.io/css/style.css">
 
-  
-    
-<link rel="stylesheet" href="/asuka.github.io/fancybox/jquery.fancybox.min.css">
+<link rel="canonical" href="https://nfsp412.github.io/blog/2024/10/23/bigdata006/">
 
-  
-  
-<meta name="generator" content="Hexo 7.3.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/asuka.github.io/" id="logo">Asuka的个人笔记</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/asuka.github.io/">Home</a>
-        
-          <a class="main-nav-link" href="/asuka.github.io/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/asuka.github.io/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://nfsp412.github.io/asuka.github.io"></form>
-      </div>
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>HBase学习笔记 | Asuka的个人笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</header>
 
-      <div class="outer">
-        <section id="main"><article id="post-bigdata006" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/asuka.github.io/2024/10/23/bigdata006/" class="article-date">
-  <time class="dt-published" datetime="2024-10-23T03:24:38.000Z" itemprop="datePublished">2024-10-23</time>
-</a>
-    
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Asuka的个人笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      HBase学习笔记
-    </h1>
-  
 
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://nfsp412.github.io/blog/2024/10/23/bigdata006/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/header.jpg">
+      <meta itemprop="name" content="asuka">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Asuka的个人笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HBase学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-10-23 11:24:38" itemprop="dateCreated datePublished" datetime="2024-10-23T11:24:38+08:00">2024-10-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-11-10 00:33:00" itemprop="dateModified" datetime="2024-11-10T00:33:00+08:00">2024-11-10</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
       </header>
+
     
-    <div class="e-content article-entry" itemprop="articleBody">
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
         <p>本文是自己在学习HBase过程中整理的一些基础笔记,仅做记录</p>
 <h5 id="hbase是什么"><a href="#hbase是什么" class="headerlink" title="hbase是什么"></a>hbase是什么</h5><p>以hdfs存储数据,分布式,nosql数据库</p>
@@ -200,150 +321,200 @@
 <h5 id="如何结合hive"><a href="#如何结合hive" class="headerlink" title="如何结合hive"></a>如何结合hive</h5><p>第一种,创建hive表,同时会创建hbase表,然后写入数据到hive表,hbase表自动同步</p>
 <p>第二种,针对已有的hbase表,创建hive外部表映射hbase表,然后使用hivesql进行表数据分析</p>
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/23/bigdata006/" data-id="cm3ael38100075cur0dy1aomt" data-title="HBase学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/asuka.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag"># 大数据</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2024/10/21/bigdata007/" rel="prev" title="Clickhouse学习笔记">
+      <i class="fa fa-chevron-left"></i> Clickhouse学习笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/2024/10/24/bigdata005/" rel="next" title="Kafka学习笔记">
+      Kafka学习笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">hbase是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E7%9A%84%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">hbase的一些概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E6%9E%B6%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">hbase架构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E5%AD%98%E5%82%A8%E6%95%B0%E6%8D%AE%E8%B7%AF%E5%BE%84"><span class="nav-number">4.</span> <span class="nav-text">hbase存储数据路径</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="nav-number">5.</span> <span class="nav-text">命令行操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#phoenix%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8"><span class="nav-number">6.</span> <span class="nav-text">phoenix结合使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#phoenix%E8%A7%86%E5%9B%BE%E6%98%A0%E5%B0%84%E5%92%8C%E8%A1%A8%E6%98%A0%E5%B0%84%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">7.</span> <span class="nav-text">phoenix视图映射和表映射的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#rowkey%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%9D%E8%B7%AF"><span class="nav-number">8.</span> <span class="nav-text">rowkey设计的思路</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E7%9A%84%E9%A2%84%E5%88%86%E5%8C%BA%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">9.</span> <span class="nav-text">hbase的预分区是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#region%E6%8B%86%E5%88%86%E5%8F%82%E6%95%B0"><span class="nav-number">10.</span> <span class="nav-text">region拆分参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98"><span class="nav-number">11.</span> <span class="nav-text">hbase参数调优</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E5%86%99%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="nav-number">12.</span> <span class="nav-text">hbase写入流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E8%AF%BB%E5%8F%96%E6%B5%81%E7%A8%8B"><span class="nav-number">13.</span> <span class="nav-text">hbase读取流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mem-store-%E5%88%B7%E5%86%99flush%E6%9D%A1%E4%BB%B6"><span class="nav-number">14.</span> <span class="nav-text">mem store 刷写flush条件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%90%88%E5%B9%B6%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">15.</span> <span class="nav-text">文件合并的概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%BB%93%E5%90%88hive"><span class="nav-number">16.</span> <span class="nav-text">如何结合hive</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="asuka"
+      src="/blog/images/header.jpg">
+  <p class="site-author-name" itemprop="name">asuka</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/blog/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:nfsp412@gmail.com" title="E-Mail → mailto:nfsp412@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">asuka</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
     </footer>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/asuka.github.io/2024/10/24/bigdata005/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          Kafka学习笔记
-        
-      </div>
-    </a>
-  
-  
-    <a href="/asuka.github.io/2024/10/21/bigdata004/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">Flink学习笔记</div>
-    </a>
-  
-</nav>
 
   
-</article>
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blog/js/utils.js"></script>
+
+<script src="/blog/js/motion.js"></script>
 
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/asuka.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
-    </div>
-  </div>
+<script src="/blog/js/schemes/pisces.js"></script>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/asuka.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a>
-    </div>
-  </div>
+<script src="/blog/js/next-boot.js"></script>
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/asuka.github.io/archives/2024/10/">十月 2024</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/asuka.github.io/2024/10/24/bigdata005/">Kafka学习笔记</a>
-          </li>
-        
-          <li>
-            <a href="/asuka.github.io/2024/10/23/bigdata006/">HBase学习笔记</a>
-          </li>
-        
-          <li>
-            <a href="/asuka.github.io/2024/10/21/bigdata004/">Flink学习笔记</a>
-          </li>
-        
-          <li>
-            <a href="/asuka.github.io/2024/10/21/bigdata007/">Clickhouse学习笔记</a>
-          </li>
-        
-          <li>
-            <a href="/asuka.github.io/2024/10/16/bigdata003/">Spark学习笔记</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2024 asuka<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/asuka.github.io/" class="mobile-nav-link">Home</a>
-  
-    <a href="/asuka.github.io/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/asuka.github.io/js/jquery-3.6.4.min.js"></script>
 
 
 
   
-<script src="/asuka.github.io/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/asuka.github.io/js/script.js"></script>
 
 
 
 
 
-  </div>
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
 </body>
 </html>
