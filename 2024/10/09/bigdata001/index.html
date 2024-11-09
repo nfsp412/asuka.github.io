@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"nfsp412.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"nfsp412.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":100,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="本文是自己在学习Hadoop过程中整理的一些基础笔记,仅做记录 有哪些命令?命令行操作方式 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849# 上传hadoop fs put # 下载hadoop fs get # 列举明细hadoop fs ls# 查看文件hadoo">
@@ -104,6 +104,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -128,11 +129,38 @@
     <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
@@ -398,7 +426,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%89%E5%93%AA%E4%BA%9B%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">有哪些命令?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-number">2.</span> <span class="nav-text">参数的优先级</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">如何保证数据完整性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#fsimage%E6%96%87%E4%BB%B6%E4%B8%AD%E4%B8%BA%E4%BD%95%E6%B2%A1%E6%9C%89%E8%AE%B0%E5%BD%95%E6%95%B0%E6%8D%AE%E5%9D%97%E6%89%80%E5%AF%B9%E5%BA%94datanode%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="nav-number">4.</span> <span class="nav-text">fsimage文件中为何没有记录数据块所对应datanode服务器信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NameNode%E5%A6%82%E4%BD%95%E7%A1%AE%E5%AE%9A%E4%B8%8B%E6%AC%A1%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%90%88%E5%B9%B6%E5%93%AA%E4%BA%9BEdits%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">NameNode如何确定下次开机启动的时候合并哪些Edits？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#maptask%E5%B9%B6%E8%A1%8C%E5%BA%A6%E5%92%8C%E4%BB%80%E4%B9%88%E6%9C%89%E5%85%B3%E7%B3%BB"><span class="nav-number">6.</span> <span class="nav-text">maptask并行度和什么有关系?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E5%8C%BA-%E5%88%86%E6%96%87%E4%BB%B6-%E6%95%B0%E5%92%8Creducetask%E4%B8%AA%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">7.</span> <span class="nav-text">分区(分文件)数和reducetask个数的关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#reduce%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E6%AC%A1%E6%95%B0"><span class="nav-number">8.</span> <span class="nav-text">reduce方法调用次数?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#reducetask%E5%92%8Cmaptask%E4%B8%AA%E6%95%B0"><span class="nav-number">9.</span> <span class="nav-text">reducetask和maptask个数?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E6%95%B0%E6%8D%AE%E4%B8%8D%E5%9D%87%E8%A1%A1%EF%BC%88%E6%9F%90%E4%B8%AA%E8%8A%82%E7%82%B9%E6%95%B0%E6%8D%AE%E5%B0%91%EF%BC%8C%E5%85%B6%E4%BB%96%E8%8A%82%E7%82%B9%E6%95%B0%E6%8D%AE%E5%A4%9A%EF%BC%89%EF%BC%8C%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86%EF%BC%9F"><span class="nav-number">10.</span> <span class="nav-text">如果数据不均衡（某个节点数据少，其他节点数据多），怎么处理？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B0%8F%E6%96%87%E4%BB%B6%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86"><span class="nav-number">11.</span> <span class="nav-text">小文件怎么处理?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mr%E4%BC%98%E5%8C%96%E7%9A%84%E5%8F%82%E6%95%B0%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">12.</span> <span class="nav-text">mr优化的参数有哪些?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mr%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86"><span class="nav-number">13.</span> <span class="nav-text">mr程序的数据倾斜怎么处理?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#namenode%E5%90%AF%E5%8A%A8%E6%BA%90%E7%A0%81%E7%9A%84%E4%BA%86%E8%A7%A3"><span class="nav-number">14.</span> <span class="nav-text">namenode启动源码的了解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#datanode%E5%90%AF%E5%8A%A8%E6%BA%90%E7%A0%81%E7%9A%84%E4%BA%86%E8%A7%A3"><span class="nav-number">15.</span> <span class="nav-text">datanode启动源码的了解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hdfs%E4%B8%8A%E4%BC%A0%E6%BA%90%E7%A0%81%E7%9A%84%E4%BA%86%E8%A7%A3"><span class="nav-number">16.</span> <span class="nav-text">hdfs上传源码的了解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#yarn%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1%E6%BA%90%E7%A0%81%E7%9A%84%E4%BA%86%E8%A7%A3"><span class="nav-number">17.</span> <span class="nav-text">yarn提交任务源码的了解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Shuffle%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="nav-number">18.</span> <span class="nav-text">Shuffle工作机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mr%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%8E%92%E5%BA%8F"><span class="nav-number">19.</span> <span class="nav-text">mr任务的排序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#yarn%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5%E5%AF%B9%E6%AF%94"><span class="nav-number">20.</span> <span class="nav-text">yarn调度策略对比</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%89%E5%93%AA%E4%BA%9B%E5%91%BD%E4%BB%A4"><span class="nav-text">有哪些命令?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-text">参数的优先级</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-text">如何保证数据完整性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#fsimage%E6%96%87%E4%BB%B6%E4%B8%AD%E4%B8%BA%E4%BD%95%E6%B2%A1%E6%9C%89%E8%AE%B0%E5%BD%95%E6%95%B0%E6%8D%AE%E5%9D%97%E6%89%80%E5%AF%B9%E5%BA%94datanode%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="nav-text">fsimage文件中为何没有记录数据块所对应datanode服务器信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NameNode%E5%A6%82%E4%BD%95%E7%A1%AE%E5%AE%9A%E4%B8%8B%E6%AC%A1%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%90%88%E5%B9%B6%E5%93%AA%E4%BA%9BEdits%EF%BC%9F"><span class="nav-text">NameNode如何确定下次开机启动的时候合并哪些Edits？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#maptask%E5%B9%B6%E8%A1%8C%E5%BA%A6%E5%92%8C%E4%BB%80%E4%B9%88%E6%9C%89%E5%85%B3%E7%B3%BB"><span class="nav-text">maptask并行度和什么有关系?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E5%8C%BA-%E5%88%86%E6%96%87%E4%BB%B6-%E6%95%B0%E5%92%8Creducetask%E4%B8%AA%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-text">分区(分文件)数和reducetask个数的关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#reduce%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E6%AC%A1%E6%95%B0"><span class="nav-text">reduce方法调用次数?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#reducetask%E5%92%8Cmaptask%E4%B8%AA%E6%95%B0"><span class="nav-text">reducetask和maptask个数?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E6%95%B0%E6%8D%AE%E4%B8%8D%E5%9D%87%E8%A1%A1%EF%BC%88%E6%9F%90%E4%B8%AA%E8%8A%82%E7%82%B9%E6%95%B0%E6%8D%AE%E5%B0%91%EF%BC%8C%E5%85%B6%E4%BB%96%E8%8A%82%E7%82%B9%E6%95%B0%E6%8D%AE%E5%A4%9A%EF%BC%89%EF%BC%8C%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86%EF%BC%9F"><span class="nav-text">如果数据不均衡（某个节点数据少，其他节点数据多），怎么处理？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B0%8F%E6%96%87%E4%BB%B6%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86"><span class="nav-text">小文件怎么处理?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mr%E4%BC%98%E5%8C%96%E7%9A%84%E5%8F%82%E6%95%B0%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-text">mr优化的参数有哪些?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mr%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86"><span class="nav-text">mr程序的数据倾斜怎么处理?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#namenode%E5%90%AF%E5%8A%A8%E6%BA%90%E7%A0%81%E7%9A%84%E4%BA%86%E8%A7%A3"><span class="nav-text">namenode启动源码的了解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#datanode%E5%90%AF%E5%8A%A8%E6%BA%90%E7%A0%81%E7%9A%84%E4%BA%86%E8%A7%A3"><span class="nav-text">datanode启动源码的了解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hdfs%E4%B8%8A%E4%BC%A0%E6%BA%90%E7%A0%81%E7%9A%84%E4%BA%86%E8%A7%A3"><span class="nav-text">hdfs上传源码的了解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#yarn%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1%E6%BA%90%E7%A0%81%E7%9A%84%E4%BA%86%E8%A7%A3"><span class="nav-text">yarn提交任务源码的了解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Shuffle%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="nav-text">Shuffle工作机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mr%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%8E%92%E5%BA%8F"><span class="nav-text">mr任务的排序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#yarn%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5%E5%AF%B9%E6%AF%94"><span class="nav-text">yarn调度策略对比</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -494,6 +522,10 @@
   
 
 
+
+
+  
+<script src="/blog/js/local-search.js"></script>
 
 
 

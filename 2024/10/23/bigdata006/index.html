@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"nfsp412.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"nfsp412.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":100,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="本文是自己在学习HBase过程中整理的一些基础笔记,仅做记录 hbase是什么以hdfs存储数据,分布式,nosql数据库 数据存储稀疏,多维度 整体按照rowkey字典序排序 不同行的数据有不同的列 物理存储结构为rowkey+列族+字段名key+字段值value+时间戳+类型 hbase的一些概念namespace,类比数据库,默认default table,类比数据表,但是只需要声明列族,不">
@@ -104,6 +104,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -128,11 +129,38 @@
     <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
@@ -403,7 +431,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">hbase是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E7%9A%84%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">hbase的一些概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E6%9E%B6%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">hbase架构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E5%AD%98%E5%82%A8%E6%95%B0%E6%8D%AE%E8%B7%AF%E5%BE%84"><span class="nav-number">4.</span> <span class="nav-text">hbase存储数据路径</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="nav-number">5.</span> <span class="nav-text">命令行操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#phoenix%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8"><span class="nav-number">6.</span> <span class="nav-text">phoenix结合使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#phoenix%E8%A7%86%E5%9B%BE%E6%98%A0%E5%B0%84%E5%92%8C%E8%A1%A8%E6%98%A0%E5%B0%84%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">7.</span> <span class="nav-text">phoenix视图映射和表映射的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#rowkey%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%9D%E8%B7%AF"><span class="nav-number">8.</span> <span class="nav-text">rowkey设计的思路</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E7%9A%84%E9%A2%84%E5%88%86%E5%8C%BA%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">9.</span> <span class="nav-text">hbase的预分区是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#region%E6%8B%86%E5%88%86%E5%8F%82%E6%95%B0"><span class="nav-number">10.</span> <span class="nav-text">region拆分参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98"><span class="nav-number">11.</span> <span class="nav-text">hbase参数调优</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E5%86%99%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="nav-number">12.</span> <span class="nav-text">hbase写入流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E8%AF%BB%E5%8F%96%E6%B5%81%E7%A8%8B"><span class="nav-number">13.</span> <span class="nav-text">hbase读取流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mem-store-%E5%88%B7%E5%86%99flush%E6%9D%A1%E4%BB%B6"><span class="nav-number">14.</span> <span class="nav-text">mem store 刷写flush条件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%90%88%E5%B9%B6%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">15.</span> <span class="nav-text">文件合并的概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%BB%93%E5%90%88hive"><span class="nav-number">16.</span> <span class="nav-text">如何结合hive</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">hbase是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E7%9A%84%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5"><span class="nav-text">hbase的一些概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E6%9E%B6%E6%9E%84"><span class="nav-text">hbase架构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E5%AD%98%E5%82%A8%E6%95%B0%E6%8D%AE%E8%B7%AF%E5%BE%84"><span class="nav-text">hbase存储数据路径</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="nav-text">命令行操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#phoenix%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8"><span class="nav-text">phoenix结合使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#phoenix%E8%A7%86%E5%9B%BE%E6%98%A0%E5%B0%84%E5%92%8C%E8%A1%A8%E6%98%A0%E5%B0%84%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">phoenix视图映射和表映射的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#rowkey%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%9D%E8%B7%AF"><span class="nav-text">rowkey设计的思路</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E7%9A%84%E9%A2%84%E5%88%86%E5%8C%BA%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">hbase的预分区是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#region%E6%8B%86%E5%88%86%E5%8F%82%E6%95%B0"><span class="nav-text">region拆分参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98"><span class="nav-text">hbase参数调优</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E5%86%99%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="nav-text">hbase写入流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#hbase%E8%AF%BB%E5%8F%96%E6%B5%81%E7%A8%8B"><span class="nav-text">hbase读取流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mem-store-%E5%88%B7%E5%86%99flush%E6%9D%A1%E4%BB%B6"><span class="nav-text">mem store 刷写flush条件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%90%88%E5%B9%B6%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-text">文件合并的概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%BB%93%E5%90%88hive"><span class="nav-text">如何结合hive</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -499,6 +527,10 @@
   
 
 
+
+
+  
+<script src="/blog/js/local-search.js"></script>
 
 
 

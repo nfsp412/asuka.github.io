@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"nfsp412.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"nfsp412.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":100,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="本文是自己在学习Clickhouse过程中整理的一些基础笔记,仅做记录 clickhouse是什么基于c++编写,列式存储数据库,用于olap在线分析 50mb-200mb每秒的写入速度 每行数据100bytes估算,即50w-200w每秒的数据条数写入 单表聚合查询速度特别快,测试比presto,impala,spark,hive,都要快 并行处理能力强,单条查询语句利用整机cpu 关联查询慢">
@@ -104,6 +104,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -128,11 +129,38 @@
     <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
@@ -351,7 +379,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#clickhouse%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">clickhouse是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#clickhouse%E6%9C%89%E5%93%AA%E4%BA%9B%E8%A1%A8%E5%BC%95%E6%93%8E"><span class="nav-number">2.</span> <span class="nav-text">clickhouse有哪些表引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">分区的作用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E9%94%AE%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">主键的作用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">排序的作用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95"><span class="nav-number">6.</span> <span class="nav-text">二级索引</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ttl"><span class="nav-number">7.</span> <span class="nav-text">ttl</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ReplacingMergeTree"><span class="nav-number">8.</span> <span class="nav-text">ReplacingMergeTree</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SummingMergeTree"><span class="nav-number">9.</span> <span class="nav-text">SummingMergeTree</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ReplicatedMergeTree"><span class="nav-number">10.</span> <span class="nav-text">ReplicatedMergeTree</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Distributed"><span class="nav-number">11.</span> <span class="nav-text">Distributed</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%AB%98%E6%80%A7%E8%83%BDupdate%E5%92%8Cdelete"><span class="nav-number">12.</span> <span class="nav-text">如何实现高性能update和delete</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#rollup-cube-total%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">13.</span> <span class="nav-text">rollup,cube,total的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE"><span class="nav-number">14.</span> <span class="nav-text">如何导出数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#clickhouse%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4%E8%A1%A8%E4%BD%BF%E7%94%A8uuid"><span class="nav-number">15.</span> <span class="nav-text">clickhouse创建集群表使用uuid</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#clickhouse%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">clickhouse是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#clickhouse%E6%9C%89%E5%93%AA%E4%BA%9B%E8%A1%A8%E5%BC%95%E6%93%8E"><span class="nav-text">clickhouse有哪些表引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">分区的作用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E9%94%AE%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">主键的作用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">排序的作用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95"><span class="nav-text">二级索引</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ttl"><span class="nav-text">ttl</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ReplacingMergeTree"><span class="nav-text">ReplacingMergeTree</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SummingMergeTree"><span class="nav-text">SummingMergeTree</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ReplicatedMergeTree"><span class="nav-text">ReplicatedMergeTree</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Distributed"><span class="nav-text">Distributed</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%AB%98%E6%80%A7%E8%83%BDupdate%E5%92%8Cdelete"><span class="nav-text">如何实现高性能update和delete</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#rollup-cube-total%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">rollup,cube,total的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE"><span class="nav-text">如何导出数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#clickhouse%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4%E8%A1%A8%E4%BD%BF%E7%94%A8uuid"><span class="nav-text">clickhouse创建集群表使用uuid</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -447,6 +475,10 @@
   
 
 
+
+
+  
+<script src="/blog/js/local-search.js"></script>
 
 
 
