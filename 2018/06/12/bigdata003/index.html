@@ -4,14 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>Asuka的个人笔记</title>
+  <title>Spark学习笔记 | Asuka的个人笔记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Asuka的个人笔记">
-<meta property="og:url" content="https://nfsp412.github.io/asuka.github.io/index.html">
+  <meta name="description" content="本文是自己在学习Spark过程中整理的一些基础笔记,仅做记录 Spark初体验spark常用默认端口12344040：每一个spark-shell产生的端口8080：standalone模式下的集群监控18080：历史服务地址7077:连接master的内部通信端口  spark的不同命令行命令有哪些?12345spark-shell  交互式输入scala代码进行开发pyspark 使用pyth">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark学习笔记">
+<meta property="og:url" content="https://nfsp412.github.io/asuka.github.io/2018/06/12/bigdata003/index.html">
 <meta property="og:site_name" content="Asuka的个人笔记">
+<meta property="og:description" content="本文是自己在学习Spark过程中整理的一些基础笔记,仅做记录 Spark初体验spark常用默认端口12344040：每一个spark-shell产生的端口8080：standalone模式下的集群监控18080：历史服务地址7077:连接master的内部通信端口  spark的不同命令行命令有哪些?12345spark-shell  交互式输入scala代码进行开发pyspark 使用pyth">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-06-12T01:30:13.000Z">
+<meta property="article:modified_time" content="2024-11-09T16:14:01.129Z">
 <meta property="article:author" content="asuka">
+<meta property="article:tag" content="大数据">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/asuka.github.io/atom.xml" title="Asuka的个人笔记" type="application/atom+xml">
@@ -67,9 +72,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-bigdata003" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-bigdata003" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/asuka.github.io/2018/06/12/bigdata003/" class="article-date">
   <time class="dt-published" datetime="2018-06-12T01:30:13.000Z" itemprop="datePublished">2018-06-12</time>
@@ -82,8 +85,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/asuka.github.io/2018/06/12/bigdata003/">Spark学习笔记</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      Spark学习笔记
     </h1>
   
 
@@ -557,457 +560,19 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-bigdata002" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/asuka.github.io/2018/04/01/bigdata002/" class="article-date">
-  <time class="dt-published" datetime="2018-04-01T10:20:03.000Z" itemprop="datePublished">2018-04-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/asuka.github.io/2018/04/01/bigdata002/">Hive学习笔记</a>
-    </h1>
+    <a href="/asuka.github.io/2018/04/01/bigdata002/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Hive学习笔记</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>本文是自己在学习Hive过程中整理的一些基础笔记,仅做记录</p>
-<h5 id="count的区别"><a href="#count的区别" class="headerlink" title="count的区别"></a>count的区别</h5><p>在hive中</p>
-<p>count(字段)，字段可能为null，不会统计null值</p>
-<p>count(*)，可以统计到有null的值</p>
-<p>count(1)，和count(*)，底层执行计划完全一致，效果一致</p>
-<h5 id="能否解压缩后直接使用hive"><a href="#能否解压缩后直接使用hive" class="headerlink" title="能否解压缩后直接使用hive"></a>能否解压缩后直接使用hive</h5><p>可以，因为默认可以使用derby数据库存储元数据，只需要保证hadoop集群启动即可</p>
-<h5 id="不启动hiveserver2服务，能否使用hive"><a href="#不启动hiveserver2服务，能否使用hive" class="headerlink" title="不启动hiveserver2服务，能否使用hive"></a>不启动hiveserver2服务，能否使用hive</h5><p>可以，使用命令行客户端使用hive，命令行客户端的使用命令就是hive</p>
-<h5 id="不启动metastore服务，能否使用hive"><a href="#不启动metastore服务，能否使用hive" class="headerlink" title="不启动metastore服务，能否使用hive"></a>不启动metastore服务，能否使用hive</h5><p>可以，因为metastore默认有嵌入式，会嵌入到命令行客户端，或者hiveserver2中</p>
-<h5 id="metastore默认连接哪里"><a href="#metastore默认连接哪里" class="headerlink" title="metastore默认连接哪里"></a>metastore默认连接哪里</h5><p>只要在hive-site.xml文件中配置了metastore服务的地址，就会去连接该服务，而不再使用内置嵌入式的metastore</p>
-<h5 id="有几种建表语法"><a href="#有几种建表语法" class="headerlink" title="有几种建表语法"></a>有几种建表语法</h5><ol>
-<li><p>常规建表；这种较为常用</p>
-</li>
-<li><p>create table 表名 as select；该方式只能建设内部表，如果不想要数据，可以使用where 1&#x3D;2</p>
-<p>该方式仍然可以指定注释，分隔符，文件存储格式，location位置，tbl属性</p>
-<p>这种较为常用，保留格式例如字段数据类型</p>
-</li>
-<li><p>create table 表名 like 已存在表；该方式可以创建外部表，不包含数据只有表结构，可以指定分隔符，文件存储格式，location位置，tbl属性，但是无法指定注释，保留格式例如字段数据类型</p>
-</li>
-</ol>
-<h5 id="hive里面的Driver运行在哪里"><a href="#hive里面的Driver运行在哪里" class="headerlink" title="hive里面的Driver运行在哪里"></a>hive里面的Driver运行在哪里</h5><p>如果是cli客户端,运行在该客户端中</p>
-<p>如果是jdbc客户端,运行在hiveserver2</p>
-<h5 id="hive和hdfs文件的关系是"><a href="#hive和hdfs文件的关系是" class="headerlink" title="hive和hdfs文件的关系是"></a>hive和hdfs文件的关系是</h5><p>Hive中的表在hdfs中是目录</p>
-<p>Hive中的数据在hdfs中是该目录下的文件</p>
-<h5 id="hiveserver2访问hadoop集群的用户身份是谁"><a href="#hiveserver2访问hadoop集群的用户身份是谁" class="headerlink" title="hiveserver2访问hadoop集群的用户身份是谁"></a>hiveserver2访问hadoop集群的用户身份是谁</h5><p>由Hiveserver2的hive.server2.enable.doAs参数决定</p>
-<p>若启用，则Hiveserver2会模拟成客户端的登录用户去访问Hadoop集群的数据,即登录beeline使用-n指定的用户,注意在hadoop的core-site.xml中配置用户组和用户两个配置才能生效</p>
-<p>不启用，则Hivesever2会直接使用启动该服务的用户访问Hadoop集群数据,即启动该hiveserver2服务的linux用户</p>
-<p>默认开启,推荐开启,实现用户隔离</p>
-<h5 id="hive的参数如何设置-优先级是什么"><a href="#hive的参数如何设置-优先级是什么" class="headerlink" title="hive的参数如何设置,优先级是什么"></a>hive的参数如何设置,优先级是什么</h5><p>配置文件,有hive-default.xml和hive-site.xml,对本机所有hive进程都生效</p>
-<p>命令行参数,执行hive或者beeline命令时,添加-hiveconf k&#x3D;v 针对本次hive生效</p>
-<p>命令行内使用set设置,set k&#x3D;v,针对本次hive生效</p>
-<p>配置文件 &lt; 命令行参数 &lt; set</p>
-<h5 id="不启动metastore服务能使用beeline客户端吗"><a href="#不启动metastore服务能使用beeline客户端吗" class="headerlink" title="不启动metastore服务能使用beeline客户端吗"></a>不启动metastore服务能使用beeline客户端吗</h5><p>只要启动了hiveserver2服务就能使用beeline客户端,和metastore服务没关系</p>
-<p>不启动hiveserver2是无法使用beeline的,但是hive是可以的(前提是hive-site.xml配置了metastore而且开启了metastore)</p>
-<h5 id="内部表和外部表"><a href="#内部表和外部表" class="headerlink" title="内部表和外部表"></a>内部表和外部表</h5><p>默认创建的表都是的内部表，有时也被称为管理表。对于内部表，Hive会完全管理表的元数据和数据文件,删除表会删除元数据和数据文件</p>
-<p>外部表通常可用于处理其他工具上传的数据文件，对于外部表，Hive只负责管理元数据，不负责管理HDFS中的数据文件,,删除表不会删除数据文件</p>
-<h5 id="如何处理json文件的输入"><a href="#如何处理json文件的输入" class="headerlink" title="如何处理json文件的输入"></a>如何处理json文件的输入</h5><p>使用json的serde再结合复杂数据类型即可映射</p>
-<p>例如json的数组可以用array映射,花括号但是kv类型一致可以用map.花括号但是每个kv类型不一定一致可以用struct</p>
-<p>使用JsonSerDe序列化</p>
-<h5 id="hive的表和库本质是什么"><a href="#hive的表和库本质是什么" class="headerlink" title="hive的表和库本质是什么"></a>hive的表和库本质是什么</h5><p>本质就是hdfs的目录</p>
-<h5 id="drop和truncate的区别"><a href="#drop和truncate的区别" class="headerlink" title="drop和truncate的区别"></a>drop和truncate的区别</h5><p>drop删除表信息,所以元数据是一定删除的,但是数据文件是否删除要看内部表还是外部表</p>
-<p>truncate清除数据,但是元数据即表结构没删除,而且只能操作内部表,显然的</p>
-<h5 id="hive或者beeline命令行中能使用hadoop的shell命令吗"><a href="#hive或者beeline命令行中能使用hadoop的shell命令吗" class="headerlink" title="hive或者beeline命令行中能使用hadoop的shell命令吗"></a>hive或者beeline命令行中能使用hadoop的shell命令吗</h5><p>可以,dfs -put xxx这样使用</p>
-<h5 id="复杂数据类型有哪些"><a href="#复杂数据类型有哪些" class="headerlink" title="复杂数据类型有哪些"></a>复杂数据类型有哪些</h5><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-<th>定义</th>
-<th>取值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>array</td>
-<td>数组是一组相同类型的值的集合</td>
-<td>array<code>&lt;</code>string<code>&gt;</code></td>
-<td>arr[0]</td>
-</tr>
-<tr>
-<td>map</td>
-<td>map是一组相同类型的键-值对集合</td>
-<td>map&lt;string, int&gt;</td>
-<td>map[‘key’]</td>
-</tr>
-<tr>
-<td>struct</td>
-<td>结构体由多个属性组成，每个属性都有自己的属性名和数据类型</td>
-<td>struct&lt;id:int,  name:string&gt;</td>
-<td>struct.id</td>
-</tr>
-</tbody></table>
-<h5 id="分区表和分桶表的区别"><a href="#分区表和分桶表的区别" class="headerlink" title="分区表和分桶表的区别"></a>分区表和分桶表的区别</h5><p><strong>分区表</strong>:就是把一张大表的数据按照业务需要分散的存储到多个目录，每个目录就称为该表的一个分区。在查询时通过where子句中的表达式选择查询所需要的分区，这样的查询效率会提高很多,分区分的是文件目录</p>
-<p><strong>分桶表</strong>:分桶分的是数据文件,建表关键字clustered by(字段) sorted by(字段)into n buckets,算法仍然是分桶字段的hash值取余桶的数量,可以在建表时额外使用stored by(字段)来指定分桶后的内部排序字段</p>
-<h5 id="hive存储格式和压缩格式有哪些"><a href="#hive存储格式和压缩格式有哪些" class="headerlink" title="hive存储格式和压缩格式有哪些"></a>hive存储格式和压缩格式有哪些</h5><p>hive的压缩本质上指的就是hadoop的压缩,hadoop的压缩可以在三个位置设置压缩,输入文件压缩,map阶段输出压缩,reduce阶段输出压缩</p>
-<p><strong>输入阶段</strong>: 如果是textfile文本类型,那么有一些压缩文件可以直接读取,无需指定参数或者解压缩</p>
-<p>如果是列存储格式,需要在建表语句时指定</p>
-<p><strong>计算过程中</strong>: map阶段输出,或者是两个mr任务之间的临时数据阶段,也可以设置压缩,需要开启相关参数</p>
-<p>单个mr之间的压缩参数</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 开启MapReduce中间数据压缩功能</span></span><br><span class="line"><span class="keyword">set</span> mapreduce.map.output.compress<span class="operator">=</span><span class="literal">true</span>;</span><br><span class="line"><span class="comment">-- 设置MapReduce中间数据数据的压缩方式（以下示例为snappy）</span></span><br><span class="line"><span class="keyword">set</span> mapreduce.map.output.compress.codec<span class="operator">=</span>org.apache.hadoop.io.compress.SnappyCodec;</span><br></pre></td></tr></table></figure>
-
-<p>不同mr之间的压缩参数</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 是否对两个MR之间的临时数据进行压缩</span></span><br><span class="line"><span class="keyword">set</span> hive.exec.compress.intermediate<span class="operator">=</span><span class="literal">true</span>;</span><br><span class="line"><span class="comment">-- 压缩格式（以下示例为snappy）</span></span><br><span class="line"><span class="keyword">set</span> hive.intermediate.compression.codec<span class="operator">=</span> org.apache.hadoop.io.compress.SnappyCodec;</span><br></pre></td></tr></table></figure>
-
-<p><strong>输出阶段</strong>: 输出文件或者写入其他表的阶段,也可以设置压缩,需要开启相关参数</p>
-<p>导出为文件(insert overwrite local directory语法)的压缩参数,写入表的压缩参数在建表的时候设置即可</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- SQL语句的最终输出结果是否压缩</span></span><br><span class="line"><span class="keyword">set</span> hive.exec.compress.output<span class="operator">=</span><span class="literal">true</span>;</span><br><span class="line"><span class="comment">-- 输出结果的压缩格式（以下示例为snappy）</span></span><br><span class="line"><span class="keyword">set</span> mapreduce.output.fileoutputformat.compress.codec<span class="operator">=</span>org.apache.hadoop.io.compress.SnappyCodec;</span><br></pre></td></tr></table></figure>
-
-<h5 id="行存储和列存储区别"><a href="#行存储和列存储区别" class="headerlink" title="行存储和列存储区别"></a>行存储和列存储区别</h5><p>列存储更适合列裁剪查询的场景,效率更高,提高读写数据和处理数据的性能</p>
-<p>行存储有textfile,sequence file,列存储有orc,parquet等</p>
-<h5 id="文件null值问题"><a href="#文件null值问题" class="headerlink" title="文件null值问题"></a>文件null值问题</h5><p>文件中的\N会转换成hive底层的null值,使用is null进行过滤判断</p>
-<h5 id="强制类型转换失败会怎样"><a href="#强制类型转换失败会怎样" class="headerlink" title="强制类型转换失败会怎样"></a>强制类型转换失败会怎样</h5><p>转换失败的话是转换成null，而不是报错，例如string类型的abc转换成int，会变成null</p>
-<h5 id="5个by指的是什么"><a href="#5个by指的是什么" class="headerlink" title="5个by指的是什么"></a>5个by指的是什么</h5><ol>
-<li>group by按照key分组,常见于单表分组聚合统计,完整的mr任务</li>
-<li>distribute by按照指定字段key的hash码值和reducetask个数哈希取模,一般结合sort by使用</li>
-<li>order by全局排序,reducetask个数强制为1个,设置多个也不生效,本质是map端排序然后reduce端排序,完整mr任务,一般结合limit使用,因为有优化,假设limit100,那么每个maptask阶段只需要排序后选择100条发送到reducetask阶段即可</li>
-<li>sort by指的是reducetask局部排序,可以单独使用,也可以结合distribute by使用,需要手动设置reducetask个数大于1个才有效果,单独使用的时候就是随机分区数据到reduce</li>
-<li>当distribute by和sort by字段相同时，可以使用cluster by代替,但是排序只能是升序排序</li>
-</ol>
-<h5 id="order-by为啥和limit结合使用"><a href="#order-by为啥和limit结合使用" class="headerlink" title="order by为啥和limit结合使用"></a>order by为啥和limit结合使用</h5><p>因为有优化,假设limit100,那么每个maptask阶段只需要排序后选择100条发送到reducetask阶段即可</p>
-<h5 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h5><p>UDTF表生成函数,一般结合侧视图使用,例如explode炸裂函数这种,将一行转换成多行</p>
-<p>collect_list,根据某个key将多行转换成一行</p>
-<p>数学相关如floor向下取整,ceil向上取整,</p>
-<p>字符串相关如substring截取,split切割,正则相关函数,例如regexp_replace,可以实现身份证或者手机号的脱敏,coalesce空值过滤,concat字符串拼接,get_json_object解析json</p>
-<p>时间日期相关如,unix_timestamp日期转换时间戳,from_unixtime时间戳转换日期,date_format日期解析成指定格式等</p>
-<h5 id="一行转多行和多行转一行如何实现"><a href="#一行转多行和多行转一行如何实现" class="headerlink" title="一行转多行和多行转一行如何实现"></a>一行转多行和多行转一行如何实现</h5><p>例如UDTF表生成函数,一般结合侧视图使用,例如explode炸裂函数这种,将一行转换成多行</p>
-<p>例如collect_list,根据某个key将多行转换成一行</p>
-<h5 id="行转列和列转行如何实现"><a href="#行转列和列转行如何实现" class="headerlink" title="行转列和列转行如何实现"></a>行转列和列转行如何实现</h5><p>行转列指的是,原本是多行数据,比如张三,语数外对应的分数,一共三条数据,我想给他转换成,一条数据,语数外不是字段值了,而是字段名称,所以根据张三进行分组,使用三个max加上case when进行统计,</p>
-<p>列转行指的是反过来,使用union all,即select查询张三,以及语文作为字段值,以及对应的分数作为第三列即可</p>
-<h5 id="窗口函数有哪些"><a href="#窗口函数有哪些" class="headerlink" title="窗口函数有哪些"></a>窗口函数有哪些</h5><p>窗口函数分为前面的开窗函数部分和后面的窗口范围</p>
-<p>开窗函数部分,有排序相关的row_number,可以去重,有dense_rank稠密排序,等,有sum这种聚合函数的,有lag,lead这种跨行取值的,有first_value这种取首值尾值的</p>
-<p>后面的窗口范围,分为基于行的范围rows和基于值的范围range</p>
-<p>关键字有partition by分区,order by指定排序字段,rows或者range,最后的between and窗口范围</p>
-<h5 id="窗口函数的默认值问题"><a href="#窗口函数的默认值问题" class="headerlink" title="窗口函数的默认值问题"></a>窗口函数的默认值问题</h5><p>over窗口内的关键字都可以不写</p>
-<p>不写partition,代表不分区</p>
-<p>如果是只包含order by,那么代表基于值range,范围是首值到当前值,即累计效果</p>
-<p>如果是不包含order by,而且也不包含rows或者range,那么代表rows基于行,全窗口范围,求的是汇总值</p>
-<p>注意对于lag和lead,row_number等排序函数,都是不能基于值的范围,而且也不能基于行的范围,即不支持自定义窗口</p>
-<h5 id="order-by和range-between-and的关系"><a href="#order-by和range-between-and的关系" class="headerlink" title="order by和range between and的关系"></a>order by和range between and的关系</h5><p>order by在range中,实际上指的不是排序,而是基于order by的字段去划分窗口,因为基于值,排序不排序是无意义的</p>
-<p>并且range是基于值的,所以order by的字段,在窗口范围包含了num具体数字的时候,此时一定是能够加减值的数据类型</p>
-<p>但是如果不包含num具体数字,那么就不一定非要是能够加减值的数据类型了</p>
-<h5 id="有几种去重方式"><a href="#有几种去重方式" class="headerlink" title="有几种去重方式"></a>有几种去重方式</h5><p>distinct</p>
-<p>group by</p>
-<p>row_number</p>
-<p>从执行计划来看,前面两个一样,实际上distinct就是翻译成group by的,从执行计划上面来看是一样的</p>
-<p>row_number应该速度慢一些,因为在map阶段并没有进行map side预聚合的操作,所以写入reducetask的数据量肯定是比前面两个更大</p>
-<h5 id="hive的二级分区"><a href="#hive的二级分区" class="headerlink" title="hive的二级分区"></a>hive的二级分区</h5><p>二级分区指的是例如按照天进行了分区,再按照小时进行分区的这种操作,也是为了过滤查询效率的增加</p>
-<h5 id="hive如何和hdfs的分区目录同步一致性"><a href="#hive如何和hdfs的分区目录同步一致性" class="headerlink" title="hive如何和hdfs的分区目录同步一致性"></a>hive如何和hdfs的分区目录同步一致性</h5><p>如果手动增删hdfs分区目录,使用msck repair table dept_partition sync partitions;这段sql进行分区目录同步一致性</p>
-<h5 id="hive的动态分区"><a href="#hive的动态分区" class="headerlink" title="hive的动态分区"></a>hive的动态分区</h5><p>写入数据到分区表时,分区字段的值可以手动指定,但是我们可以使用动态分区的方式</p>
-<p>动态分区是指向分区表insert数据时，被写往的分区不由用户指定，而是由每行数据的最后一个字段的值来动态的决定。使用动态分区，可只用一个insert语句将数据写入多个分区</p>
-<p>两个参数</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 开启动态分区</span></span><br><span class="line"><span class="keyword">set</span> hive.exec.dynamic.partition<span class="operator">=</span><span class="literal">true</span></span><br><span class="line"><span class="comment">-- 开启非严格模式</span></span><br><span class="line"><span class="keyword">set</span> hive.exec.dynamic.partition.mode<span class="operator">=</span>nonstrict</span><br></pre></td></tr></table></figure>
-
-<h5 id="hive调优思路"><a href="#hive调优思路" class="headerlink" title="hive调优思路"></a>hive调优思路</h5><ul>
-<li>实际上基于mr的引擎的话,指的是mr的调优和yarn的调优</li>
-</ul>
-<ol>
-<li><p>yarn集群的调优主要是设置集群内存cpu资源以及单个container内存cpu资源</p>
-</li>
-<li><p>针对不同任务调整mr资源参数</p>
-<p>在hivesql中,使用set进行设置即可,例如maptask和reducetask的cpu和内存调整</p>
-</li>
-</ol>
-<ul>
-<li>sql层面的调优,要先分析执行计划explain,然后再针对性进行sql优化</li>
-</ul>
-<ol>
-<li>map side端预聚合优化,相关参数已经开启,但是需要注意是否能够触发,可以调大占比0.5,这样更容易触发map side,执行计划中map端包含了一个group by就证明走map side预聚合优化了</li>
-<li>map join,适用于小表join大表,不经过shuffle过程,效率高,可以使用hint提示在sql中触发,也可以调整参数触发,</li>
-<li>在多个小表大小已知的情况下,调整hive.auto.convert.join.noconditionaltask参数尽量保证大于所有小表总和,走最优map join,或者尽量保证大于不同common join任务对应的小表中最大的那个也行,会无法合并但是也能提升效率</li>
-<li>在存在小表大小未知的情况下,只能走条件任务,此时调整hive.mapjoin.smalltable.filesize参数尽量保证大于所有小表中最大的那个,保证有map join计划生成,同时保留common join备选</li>
-<li>尽量满足条件走bucket map join和sort merge bucket map join</li>
-</ol>
-<ul>
-<li><p>解决数据倾斜</p>
-</li>
-<li><p>设置合理的并行度,即map端并行度和reduce端并行度,</p>
-</li>
-</ul>
-<ol>
-<li>map端默认输入使用的是CombineHiveInputFormat,会对小文件进行优化,多个小文件合并一个切片处理,如果map端做了一些etl操作,比如json的解析,正则匹配进行脱敏等,可以调整切片大小,默认是大约256mb进行的,这个参数和hadoop的mr的默认值是不一样的,这里注意,</li>
-<li>针对reduce端的并行度,该端文件大小也是约256mb大小,mapreduce.job.reduces参数可以调整reduce个数</li>
-</ol>
-<h5 id="小文件的处理方式"><a href="#小文件的处理方式" class="headerlink" title="小文件的处理方式"></a>小文件的处理方式</h5><ul>
-<li>从hadoop或者说hdfs存储层面,</li>
-</ul>
-<ol>
-<li>使用hadoop archive -archiveName input.har -p  &#x2F;small   &#x2F;output_small,实际上是一个mr任务,进行合并小文件,NN认为是一个文件,实际上还是多个小文件</li>
-</ol>
-<ul>
-<li>从mr程序执行的角度</li>
-</ul>
-<ol>
-<li>使用CombineTextInputFormat代替TextInputFormat类,去读取文件,设置合理的切片值,默认是4MB</li>
-<li>使用jvm重用,即开启uber模式参数</li>
-</ol>
-<ul>
-<li>从hivesql角度,</li>
-</ul>
-<ol>
-<li>map端默认是使用了CombineHiveInputFormat,即自动合并了小文件进行处理</li>
-<li>reduce端可以自行根据数据量设置并行度,即mapreduce.job.reduce,默认-1自动估算的,mr整体数据量除以约256mb,再求ceil,然后和1009默认值取min即可,所以一般会等同于map阶段的并行度,这样输出的小文件就合并只有一个了</li>
-</ol>
-<h5 id="数据倾斜解决思路"><a href="#数据倾斜解决思路" class="headerlink" title="数据倾斜解决思路"></a>数据倾斜解决思路</h5><p>数据倾斜产生的本质就是某个reduce包含的数据远远大于其他reduce,也就是某个key的数据远远大于其他数据</p>
-<ul>
-<li>分组聚合的数据倾斜,是因为某个key的数据量太大导致下游reduce处理数据量过大产生</li>
-</ul>
-<ol>
-<li><p>map side预聚合,如果单纯做一些分组聚合的统计,比如pvuv计算,那么实际上可以走map side预聚合,通过执行计划查看是否在map阶段产生了group by即可,有一个参数是聚合后条数占比聚合前条数,默认是0.5,还有一个是检测预聚合的抽样条数默认是10w条,可以调整这两个参数来让他走map side聚合,总之可以通过执行计划和日志进行分析</p>
-</li>
-<li><p>使用skew group by方式,原理就是启动两个mr任务,第一个按照随机数分区,这样reduce端是打散的,第二个mr再按照分组字段进行分组聚合</p>
-<p>首先要开启skew参数,默认是没开启的,就是hive.groupby.skewindata</p>
-</li>
-</ol>
-<ul>
-<li>join产生的数据倾斜,默认是common join,所以如果关联字段的值分步不均匀,就可能在reduce端产生数据倾斜</li>
-</ul>
-<ol>
-<li>走map join</li>
-<li>使用skew join,类似于skew group by,为那个大key单独启动一个mr任务,其余的使用另一个mr任务走common join,并且单独的mr任务使用map join,实际上这种是为了解决大表join大表的数据倾斜的情况的,并且要求某一张表的倾斜key的数据量较小,方便走map join,判断的条件是某个key的行数大于10w行这个条件,大于就这样走skew join,这也是一个运行时的策略,只有在运行时才能判断</li>
-<li>调整sql语句,针对倾斜大表进行倾斜key的随机数打散,打散的方式可以使用rand()*打散倍数,拼接key,针对另一张表进行关联字段扩容,扩容的方式是针对key拼接打散随机数值,然后union all,例如</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">from</span> (</span><br><span class="line">    <span class="keyword">select</span> <span class="operator">*</span>,concat(province_id,<span class="string">&#x27;_&#x27;</span>,<span class="built_in">cast</span>(rand()<span class="operator">*</span><span class="number">6</span> <span class="keyword">as</span> <span class="type">int</span>)) pid</span><br><span class="line">    <span class="keyword">from</span> order_detail</span><br><span class="line">     )ta</span><br><span class="line"><span class="keyword">join</span> (</span><br><span class="line">    <span class="keyword">select</span> <span class="operator">*</span>,concat(id,<span class="string">&#x27;_&#x27;</span>,<span class="number">0</span>) pid</span><br><span class="line">    <span class="keyword">from</span> province_info</span><br><span class="line">    <span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line">    <span class="keyword">select</span> <span class="operator">*</span>,concat(id,<span class="string">&#x27;_&#x27;</span>,<span class="number">1</span>) pid</span><br><span class="line">    <span class="keyword">from</span> province_info</span><br><span class="line">    <span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line">    <span class="keyword">select</span> <span class="operator">*</span>,concat(id,<span class="string">&#x27;_&#x27;</span>,<span class="number">2</span>) pid</span><br><span class="line">    <span class="keyword">from</span> province_info</span><br><span class="line">    <span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line">    <span class="keyword">select</span> <span class="operator">*</span>,concat(id,<span class="string">&#x27;_&#x27;</span>,<span class="number">3</span>) pid</span><br><span class="line">    <span class="keyword">from</span> province_info</span><br><span class="line">    <span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line">    <span class="keyword">select</span> <span class="operator">*</span>,concat(id,<span class="string">&#x27;_&#x27;</span>,<span class="number">4</span>) pid</span><br><span class="line">    <span class="keyword">from</span> province_info</span><br><span class="line">    <span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line">    <span class="keyword">select</span> <span class="operator">*</span>,concat(id,<span class="string">&#x27;_&#x27;</span>,<span class="number">5</span>) pid</span><br><span class="line">    <span class="keyword">from</span> province_info</span><br><span class="line">)tb</span><br><span class="line"><span class="keyword">on</span> ta.pid<span class="operator">=</span>tb.pid;</span><br></pre></td></tr></table></figure>
-
-<h5 id="hive中有几种join"><a href="#hive中有几种join" class="headerlink" title="hive中有几种join"></a>hive中有几种join</h5><ol>
-<li><p>最普通的common join,由一个完整mr构成,一个sql语句中的相邻的且关联字段相同的多个join操作可以合并为一个Common Join任务</p>
-</li>
-<li><p>map join,小表驱动大表,由两个map阶段构成,无需经过shuffle,性能好</p>
-</li>
-<li><p>Bucket Map Join,可用于大表join大表的场景,join的表均为分桶表，且关联字段为分桶字段，且其中一张表的分桶数量是另外一张表分桶数量的整数倍</p>
-</li>
-<li><p>Sort Merge Bucket Map Join ,可用于大表join大表的场景,join的表均为分桶表，且需保证分桶内的数据是有序的，且分桶字段、排序字段和关联字段为相同字段，且其中一张表的分桶数量是另外一张表分桶数量的整数倍</p>
-<p>效率更高,因为无需对整个桶构建hash table,也不需要缓存整个桶,每个mapper只需要按照顺序逐个key的方式去读取数据即可</p>
-</li>
-</ol>
-<h5 id="执行计划查看"><a href="#执行计划查看" class="headerlink" title="执行计划查看"></a>执行计划查看</h5><p>使用explain关键字</p>
-<p>stage对应的是mr任务</p>
-<p>map operator tree和reduce operator tree对应map阶段和reduce阶段</p>
-<p>操作树由一系列的operator组成,例如table scan operator等等,一个operator就代表一个单一操作</p>
-<h5 id="map-join源码了解"><a href="#map-join源码了解" class="headerlink" title="map join源码了解"></a>map join源码了解</h5><ol>
-<li>先判断hive.auto.convert.join是否是true,默认true,寻找大表候选人,大表候选人如何寻找是按照sql语句寻找的,即left join,right join的主表就作为大表候选人,根据执行计划,inner join顺序无所谓,full join不能走map join</li>
-<li>有候选人后,进一步判断hive.auto.convert.join.noconditionaltask,即走不走条件任务,默认true即不走条件任务,不进行common join的后备计划,否则走条件任务</li>
-<li>进一步判断hive.auto.convert.join.noconditionaltask.size,大表候选人以外的表大小均已知,并且sum总和小于这个参数,生成最优map join计划,否则走条件任务</li>
-<li>条件任务的判断,是去排除一定不能生效的map join计划,然后看还有没有能够使用的map join计划,有的话额外添加common join作为备选,然后运行时决定,判断map join不能生效的两个条件是,大表候选人的大小已知并且之外的表总和大于hive.mapjoin.smalltable.filesize,默认250000即约244kb</li>
-<li>生成最优map join计划时,判断是否能够map join合并,指的是原本的多个common join生成的多个map join能否合并,看的就是hive.auto.convert.join.noconditionaltask.size的大小</li>
-</ol>
-<h5 id="hive源码了解"><a href="#hive源码了解" class="headerlink" title="hive源码了解"></a>hive源码了解</h5><p>解析器,编译器,优化器,执行器,本质上就是hadoop的一个客户端程序</p>
-<p>流程是:</p>
-<ol>
-<li>Antlr框架解析hivesql形成抽象语法树,AST</li>
-<li>抽象出基本查询块,并转换成操作树</li>
-<li>使用逻辑优化器进行优化,</li>
-<li>然后转换成物理执行计划,并进行优化,mr任务没有具体实现因为默认就是mr任务</li>
-<li>最后形成mr任务执行</li>
-</ol>
-<p>具体代码如下</p>
-<p>启动主类是CliDriver类,找到main方法,</p>
-<ul>
-<li>解析命令行参数,</li>
-<li>定义输入输出流,</li>
-<li>按照分号切分sql语句</li>
-</ul>
-<p>Driver类</p>
-<ul>
-<li>解析器将sql解析为AST; ParseDriver类的parse方法</li>
-<li>编译器转换成基本查询块,SemanticAnalyzer类analyzeInternal方法<ul>
-<li>转换成基本查询块,</li>
-<li>转换成操作树</li>
-<li>逻辑优化器逻辑优化,例如各种ParseContext的实现类的transform方法</li>
-<li>生成task tree </li>
-<li>物理优化器物理优化,例如 <a href="apache-hive-3.1.2-src%5Cql%5Csrc%5Cjava%5Corg%5Capache%5Chadoop%5Chive%5Cql%5Cparse%5Cspark%5CSparkCompiler.java">SparkCompiler.java</a> 类的optimizeOperatorPlan方法</li>
-</ul>
-</li>
-<li>提交任务TaskRunner类,线程类,run方法,具体是ExecDriver 类的execute方法,最终调用到mr源码里面提交任务了<ul>
-<li>mr临时目录</li>
-<li>分区器</li>
-<li>mapper和reducer</li>
-<li>提交任务</li>
-</ul>
-</li>
-</ul>
-<h5 id="远程debug如何操作"><a href="#远程debug如何操作" class="headerlink" title="远程debug如何操作"></a>远程debug如何操作</h5><p>idea使用远程debug模式,连接ip和端口,端口默认8000</p>
-<p>hive –debug启动</p>
-<p>然后开启debug模式</p>
-<p>在循环输入sql语句就可以开始debug了</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://nfsp412.github.io/asuka.github.io/2018/04/01/bigdata002/" data-id="cm3ad8wf4000298ur7p6gaqa6" data-title="Hive学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/asuka.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
-    <article id="post-bigdata001" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/asuka.github.io/2018/03/01/bigdata001/" class="article-date">
-  <time class="dt-published" datetime="2018-03-01T14:30:48.000Z" itemprop="datePublished">2018-03-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/asuka.github.io/2018/03/01/bigdata001/">Hadoop学习笔记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>本文是自己在学习Hadoop过程中整理的一些基础笔记,仅做记录</p>
-<h5 id="有哪些命令"><a href="#有哪些命令" class="headerlink" title="有哪些命令?"></a>有哪些命令?</h5><p>命令行操作方式</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">上传</span></span><br><span class="line">hadoop fs put </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">下载</span></span><br><span class="line">hadoop fs get </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列举明细</span></span><br><span class="line">hadoop fs ls</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看文件</span></span><br><span class="line">hadoop fs cat</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建目录</span></span><br><span class="line">hadoop fs mkdir</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">复制</span></span><br><span class="line">hadoop fs cp</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移动</span> </span><br><span class="line">hadoop fs mv</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除</span></span><br><span class="line">hadoop fs rm -r </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">大小</span></span><br><span class="line">hadoop fs du</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">用来提交mr程序job</span></span><br><span class="line">hadoop jar jarpath /input /output</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看fsimage文件</span></span><br><span class="line">hdfs oiv filename</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看edits</span></span><br><span class="line">hdfs oev filename</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置副本数量</span></span><br><span class="line">hadoop fs -setrep 3 filename</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出所有任务</span></span><br><span class="line">yarn application -list</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">根据具体状态列出任务</span></span><br><span class="line">yarn application -list -appStates</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">杀死任务</span></span><br><span class="line">yarn application -kill appID</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询任务的日志，没有页面的时候很常用</span></span><br><span class="line">yarn logs -applicationId appID</span><br><span class="line">yarn logs -applicationId appID | less</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出所有的NM节点</span></span><br><span class="line">yarn node -list -all</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询队列情况</span></span><br><span class="line">yarn queue -status QueueName</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">新加入磁盘时生成均衡计划</span></span><br><span class="line">hdfs diskbalancer -plan hostname</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">新加入磁盘时执行均衡计划</span></span><br><span class="line">hdfs diskbalancer -execute hostname.plan.json</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">刷新NameNode</span></span><br><span class="line">hdfs dfsadmin -refreshNodes</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">新加入服务器节点时开启数据均衡</span></span><br><span class="line">start-balancer.sh -threshold 10</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">强制转换成standby节点</span></span><br><span class="line">hdfs haadmin -transitionToStandby NN --forcemanual </span><br></pre></td></tr></table></figure>
-
-<p>API操作方式</p>
-<p>添加依赖</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>简单演示</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 获取文件系统</span></span><br><span class="line"><span class="type">Configuration</span> <span class="variable">configuration</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Configuration</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2 需要配置用户,否则无权限</span></span><br><span class="line"><span class="type">FileSystem</span> <span class="variable">fs</span> <span class="operator">=</span> FileSystem.get(<span class="keyword">new</span> <span class="title class_">URI</span>(<span class="string">&quot;hdfs://ip:port&quot;</span>), configuration, <span class="string">&quot;user&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3 创建目录</span></span><br><span class="line">fs.mkdirs(<span class="keyword">new</span> <span class="title class_">Path</span>(<span class="string">&quot;/path&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4 关闭资源</span></span><br><span class="line">fs.close();</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://hadoop.apache.org/docs/r3.4.0/hadoop-project-dist/hadoop-common/FileSystemShell.html">官网链接</a></p>
-<h5 id="参数的优先级"><a href="#参数的优先级" class="headerlink" title="参数的优先级"></a>参数的优先级</h5><ol>
-<li>客户端代码中设置的值（configuration.set(“key”,”value”)）</li>
-<li>classpath下的用户自定义配置文件（即resources目录下配置文件）</li>
-<li>服务器的自定义配置（xxx-site.xml）</li>
-<li>服务器的默认配置（xxx-default.xml）</li>
-</ol>
-<h5 id="如何保证数据完整性"><a href="#如何保证数据完整性" class="headerlink" title="如何保证数据完整性"></a>如何保证数据完整性</h5><p>DN读取数据块时，会计算checksum校验和，然后和创建时的校验和对比，相同则认为是数据完整的</p>
-<p>读写数据时也是按照512字节的chunk加上4字节的checksum校验和，凑够64kb以packet形式发送</p>
-<p>校验算法：crc，md5，sha1等</p>
-<h5 id="fsimage文件中为何没有记录数据块所对应datanode服务器信息"><a href="#fsimage文件中为何没有记录数据块所对应datanode服务器信息" class="headerlink" title="fsimage文件中为何没有记录数据块所对应datanode服务器信息"></a>fsimage文件中为何没有记录数据块所对应datanode服务器信息</h5><p>是因为在集群启动后，要求DataNode上报数据块信息，并间隔一段时间后再次上报,所以没有记录</p>
-<h5 id="NameNode如何确定下次开机启动的时候合并哪些Edits？"><a href="#NameNode如何确定下次开机启动的时候合并哪些Edits？" class="headerlink" title="NameNode如何确定下次开机启动的时候合并哪些Edits？"></a>NameNode如何确定下次开机启动的时候合并哪些Edits？</h5><p>fsimage文件选择最新序号,再加上edits文件从该序号之后的文件,即为需要合并的文件</p>
-<p>但是注意的是,namenode中还存在inprogress最新操作文件,这个是snn中没有的,丢失是可能发生的</p>
-<p>生产常用HA高可用</p>
-<h5 id="maptask并行度和什么有关系"><a href="#maptask并行度和什么有关系" class="headerlink" title="maptask并行度和什么有关系?"></a>maptask并行度和什么有关系?</h5><p>数据切片是MapReduce程序计算输入数据的单位，一个切片会对应启动一个MapTask</p>
-<p>默认切片大小为block块大小,即默认128MB,,注意IDEA调试的时候默认是32MB块</p>
-<p>是针对每一个文件进行切片计算</p>
-<p>注意判断条件是128MB的1.1倍,大于就切片128MB,小于就不切了,一整个作为一片</p>
-<h5 id="分区-分文件-数和reducetask个数的关系"><a href="#分区-分文件-数和reducetask个数的关系" class="headerlink" title="分区(分文件)数和reducetask个数的关系"></a>分区(分文件)数和reducetask个数的关系</h5><p>如果reducetask个数(默认1)大于分区数,那么多产生空part-r-000xx文件</p>
-<p>如果大于1小于分区数,会抛出异常,因为有一些数据没地方去</p>
-<p>如果为1,那么最终只有一个part-r-00000</p>
-<p>分区编号从0开始,在自定义分区器时需要注意</p>
-<h5 id="reduce方法调用次数"><a href="#reduce方法调用次数" class="headerlink" title="reduce方法调用次数?"></a>reduce方法调用次数?</h5><p>和分组key数量有关,注意如果是bean类型,且实现排序接口,那么会按照排序属性字段分组</p>
-<p>注意区分reduce方法调用次数和reducetask个数的区别</p>
-<h5 id="reducetask和maptask个数"><a href="#reducetask和maptask个数" class="headerlink" title="reducetask和maptask个数?"></a>reducetask和maptask个数?</h5><ol>
-<li>reducetask个数是手动指定的,默认1</li>
-<li>maptask个数看切片个数</li>
-</ol>
-<h5 id="如果数据不均衡（某个节点数据少，其他节点数据多），怎么处理？"><a href="#如果数据不均衡（某个节点数据少，其他节点数据多），怎么处理？" class="headerlink" title="如果数据不均衡（某个节点数据少，其他节点数据多），怎么处理？"></a>如果数据不均衡（某个节点数据少，其他节点数据多），怎么处理？</h5><p>节点间数据均衡,使用sbin&#x2F;start-balancer.sh -threshold 10命令,10代表差异不超过10%</p>
-<p>停止命令sbin&#x2F;stop-balancer.sh</p>
-<p>尽量不在nn节点进行</p>
-<h5 id="小文件怎么处理"><a href="#小文件怎么处理" class="headerlink" title="小文件怎么处理?"></a>小文件怎么处理?</h5><ol>
-<li>使用CombineTextInputFormat代替TextInputFormat类,去读取文件,设置合理的切片值,默认是4MB</li>
-<li>使用hadoop archive -archiveName input.har -p  &#x2F;small   &#x2F;output_small,实际上是一个mr任务,进行合并小文件,NN认为是一个文件,实际上还是多个小文件</li>
-<li>使用jvm重用,即开启uber模式参数</li>
-</ol>
-<h5 id="mr优化的参数有哪些"><a href="#mr优化的参数有哪些" class="headerlink" title="mr优化的参数有哪些?"></a>mr优化的参数有哪些?</h5><ol>
-<li><p>解决数据倾斜,使用自定义的分区类</p>
-</li>
-<li><p>相关参数的设置,例如环形缓冲区增大,溢出阈值,merge合并次数增加,reduce拉取的并行度增加,maptask和reducetask的cpu和内存的适当增加</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">增加环形缓冲区大小从100mb到更多</span><br><span class="line">mapreduce.task.io.sort.mb = 200</span><br><span class="line"></span><br><span class="line">增大阈值从80到更多</span><br><span class="line">mapreduce.map.sort.spill.percent = 90</span><br><span class="line"></span><br><span class="line">增加Merge次数从10到更多</span><br><span class="line">mapreduce.task.io.sort.factor = 20</span><br><span class="line"></span><br><span class="line">内存,cpu</span><br><span class="line">mapreduce.map.memory.mb</span><br><span class="line">mapreduce.map.cpu.vcores</span><br><span class="line">mapreduce.reduce.memory.mb</span><br><span class="line">mapreduce.reduce.cpu.vcores</span><br><span class="line"></span><br><span class="line">异常重试默认4次到更多</span><br><span class="line">mapreduce.map.maxattempts = 4</span><br><span class="line"></span><br><span class="line">reduce主动拉取的并行度,默认5到更多</span><br><span class="line">mapreduce.reduce.shuffle.Parallelcopies = 10</span><br><span class="line"></span><br><span class="line">拉取后先内存后磁盘,buffer大小,默认占比0.7到更多</span><br><span class="line">mapreduce.reduce.shuffle.input.buffer.percent = 0.8</span><br><span class="line"></span><br><span class="line">buffer数据占比开始溢出默认0.66到更多</span><br><span class="line">mapreduce.reduce.shuffle.merge.percent = 0.75</span><br><span class="line"></span><br><span class="line">reduce重试次数默认4次到更多</span><br><span class="line">mapreduce.reduce.maxattempts = 4</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>三个阶段都考虑使用压缩</p>
-</li>
-</ol>
-<h5 id="mr程序的数据倾斜怎么处理"><a href="#mr程序的数据倾斜怎么处理" class="headerlink" title="mr程序的数据倾斜怎么处理?"></a>mr程序的数据倾斜怎么处理?</h5><p>详见hive数据倾斜处理方式</p>
-<h5 id="namenode启动源码的了解"><a href="#namenode启动源码的了解" class="headerlink" title="namenode启动源码的了解"></a>namenode启动源码的了解</h5><p>NameNode类的main方法</p>
-<ol>
-<li>启动9870端口服务,使用HttpServer2类</li>
-<li>加载fsimage和edits log文件</li>
-<li>初始化nn的rpc服务端,使用NameNodeRpcServer类</li>
-<li>nn启动时的资源检查,心跳超时判断,超时10min+3s时间,安全模式检查,阈值是0.999,即1000块中只能有一个块失败</li>
-</ol>
-<h5 id="datanode启动源码的了解"><a href="#datanode启动源码的了解" class="headerlink" title="datanode启动源码的了解"></a>datanode启动源码的了解</h5><p>DataNode类的main方法</p>
-<ol>
-<li>初始化DataXceiverServer,这个对象和hdfs的上传有关</li>
-<li>初始化http服务,使用HttpServer2类</li>
-<li>初始化dn的rpc服务器,即创建了一个rpc客户端</li>
-<li>dn向nn注册,发送心跳</li>
-</ol>
-<p>	</p>
-<h5 id="hdfs上传源码的了解"><a href="#hdfs上传源码的了解" class="headerlink" title="hdfs上传源码的了解"></a>hdfs上传源码的了解</h5><ol>
-<li>创建过程源码,以create方法为例,实际上调用的是NameNodeRpcServer的create方法</li>
-<li>该方法创建DFSOutputStream输出流对象,相关参数是block 128mb,packet 64kb,chunk 512bytes,checksum 4bytes</li>
-<li>该对象调用start方法,实际上是DataStreamer线程的start方法</li>
-<li>创建了dataQueue队列和ackQueue队列</li>
-<li>写入过程源码,以write方法为例,实际上最终也是调用到了 DFSOutputStream输出流对象的writeChunk方法</li>
-<li>先按照512+4bytes写入packet,等packet64kb满了以后,向dataQueue队列添加,唤醒DataStreamer线程</li>
-<li>DataStreamer线程会调用setPipeline创建管道,机架感知,获取存储位置信息</li>
-<li>创建Sender线程调用send方法使用socket方式发送packet,发送一个packet就从dataQueue队列移除,然后添加到ackQueue队列</li>
-<li>同时启动了ResponseProcessor线程用来接收ack响应,存储成功后再从ackQueue队列移除该packet,不成功就把这个packet再次添加到dataQueue队列</li>
-</ol>
-<h5 id="yarn提交任务源码的了解"><a href="#yarn提交任务源码的了解" class="headerlink" title="yarn提交任务源码的了解"></a>yarn提交任务源码的了解</h5><ol>
-<li>在自定义的mr程序中,Driver驱动类中,job执行waitForCompletion方法的过程为例</li>
-<li>客户端向rm提交job,调用到submit方法,最终获取jobid,指定提交路径,即.staging路径,然后进入切片环节,即默认TextFileInputFormat类,然后生成job.split切片信息和job.xml配置信息还有jar包,准备工作做好进入真正提交任务流程</li>
-<li>rm启动am过程,上面提交完任务后,会拼接一个shell命令,rm执行这个命令就启动了am,在yarn环境下,对应的是MRAppMaster对象</li>
-<li>启动MRAppMaster类,执行main方法,会创建一个dispatcher调度器,然后把任务job放在yarn的queue队列中</li>
-<li>YarnChild类是队列中任务执行的类,执行该类main方法,创建Task对象后执行run方法,该Task对象有MapTask和ReduceTask两个实现类</li>
-<li>MapTask分为map阶段和sort阶段,最终调用到了我们自定义程序的Mapper的map方法</li>
-<li>ReduceTask分为copy阶段,sort阶段,reduce阶段,同样是最终调用到了我们自定义程序的Reducer的reduce方法</li>
-</ol>
-<h5 id="Shuffle工作机制"><a href="#Shuffle工作机制" class="headerlink" title="Shuffle工作机制"></a>Shuffle工作机制</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1 map方法对于数据进行一行一行的处理，得到的结果是kv对，调用collect方法，放入环形缓冲区</span><br><span class="line">2 放入环形缓冲区之前会打上分区标记，调用getPartitioner方法</span><br><span class="line">3 到达一定比例后开始溢写到磁盘，在溢写过程中会进行快排，即sortAndSpill</span><br><span class="line">4 这个环节可以预先进行map端聚合，即归约环节，减少进入reduce阶段的数据量；也可以进行压缩</span><br><span class="line">5 多个溢写的文件会进行多轮递归的归并排序，每一轮合并10个文件。最终形成一个file.out数据文件和file.out.index索引文件，即mergeParts方法</span><br><span class="line">6 reduce阶段的reducetask主动去拉取自己分区的数据，即copy环节</span><br><span class="line">7 由于可能来自于多个maptask文件，所以会优先内存其次磁盘的进行归并排序，sort环节</span><br><span class="line">8 合并以后shuffle过程就结束了，会针对每一个key的所有的数据执行reduce方法</span><br></pre></td></tr></table></figure>
-
-<h5 id="mr任务的排序"><a href="#mr任务的排序" class="headerlink" title="mr任务的排序"></a>mr任务的排序</h5><p>maptask和reducetask都会对key进行排序，是默认行为，所以key必须实现了排序</p>
-<p>默认是字典序，快排</p>
-<p>maptask两次排序；快排时先按照分区编号排序，再按照编号内部的key排序，</p>
-<p>reducetask一次排序</p>
-<h5 id="yarn调度策略对比"><a href="#yarn调度策略对比" class="headerlink" title="yarn调度策略对比"></a>yarn调度策略对比</h5><p>CDH默认公平调度器</p>
-<p>Apache默认容量调度器</p>
-<p>容量调度器和公平调度器的对比：</p>
-<p>相同点：都支持多队列，每个队列内部使用FIFO；每个队列可以设置资源的下限和上限；某个队列资源有剩余，可以暂时共享给其他队列；支持多用户和多程序运行</p>
-<p>不同点：对于队列资源的分配方式不同，容量调度器优先选择资源利用率低的队列，而公平调度器优先选择对资源的缺额比例大的队列；容量调度器队列内部的资源分配使用FIFO，DRF，而公平调度器额外还能使用FAIR</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://nfsp412.github.io/asuka.github.io/2018/03/01/bigdata001/" data-id="cm3ad8wf2000198ur4do40bk1" data-title="Hadoop学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/asuka.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
 </section>
