@@ -233,7 +233,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/24/bigdata005/" data-id="cm3ae93sn00096cur5x7l80ya" data-title="Kafka学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/24/bigdata005/" data-id="cm3aedmzc000c0gurao3bcz79" data-title="Kafka学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -378,100 +378,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/23/bigdata006/" data-id="cm3ae93sl00046curfcfu2f9i" data-title="HBase学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/asuka.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-bigdata007" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/asuka.github.io/2024/10/21/bigdata007/" class="article-date">
-  <time class="dt-published" datetime="2024-10-21T03:24:38.000Z" itemprop="datePublished">2024-10-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/asuka.github.io/2024/10/21/bigdata007/">Clickhouse学习笔记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>本文是自己在学习Clickhouse过程中整理的一些基础笔记,仅做记录</p>
-<h5 id="clickhouse是什么"><a href="#clickhouse是什么" class="headerlink" title="clickhouse是什么"></a>clickhouse是什么</h5><p>基于c++编写,列式存储数据库,用于olap在线分析</p>
-<p>50mb-200mb每秒的写入速度</p>
-<p>每行数据100bytes估算,即50w-200w每秒的数据条数写入</p>
-<p>单表聚合查询速度特别快,测试比presto,impala,spark,hive,都要快</p>
-<p>并行处理能力强,单条查询语句利用整机cpu</p>
-<p>关联查询慢</p>
-<h5 id="clickhouse有哪些表引擎"><a href="#clickhouse有哪些表引擎" class="headerlink" title="clickhouse有哪些表引擎"></a>clickhouse有哪些表引擎</h5><p>TinyLog,不支持索引,没有并发控制,平时练习使用,用得少</p>
-<p>Memory,未压缩数据存储内存,不支持索引,数据量尽量限制在1亿行内,用得少</p>
-<p>MergeTree  ,以及衍生系列</p>
-<p>ReplacingMergeTree  </p>
-<p>SummingMergeTree  </p>
-<h5 id="分区的作用"><a href="#分区的作用" class="headerlink" title="分区的作用"></a>分区的作用</h5><p>partition by分区,目的主要是降低扫描的范围，优化查询速度  ,可选</p>
-<p>涉及跨分区的查询统计， ClickHouse 会以分区为单位并行处理  </p>
-<p>任何一个批次的数据写入都会产生一个临时分区，不会纳入任何一个已有的分区。写入<br>后的某个时刻（大概 10-15 分钟后）， ClickHouse 会自动执行合并操作（等不及也可以手动<br>通过 optimize 执行）  </p>
-<p>是可选项</p>
-<h5 id="主键的作用"><a href="#主键的作用" class="headerlink" title="主键的作用"></a>主键的作用</h5><p>提供一级索引,但是不是唯一性约束,一般根据where条件设置</p>
-<p>根据条件通过对主键进行某种形式的二分查找，能够定位到对应的 index granularity,避<br>免了全表扫描</p>
-<p>主键必须是 order by 字段的前缀字段  比如 order by 字段是 (id,sku_id) 那么主键必须是 id 或者(id,sku_id)    </p>
-<p>是可选项</p>
-<h5 id="排序的作用"><a href="#排序的作用" class="headerlink" title="排序的作用"></a>排序的作用</h5><p>最重要,必选项</p>
-<p>order by 设定了分区内的数据按照哪些字段顺序进行有序保存  </p>
-<h5 id="二级索引"><a href="#二级索引" class="headerlink" title="二级索引"></a>二级索引</h5><p>21版本支持二级索引,二级索引能够为非主键字段的查询发挥作用  </p>
-<p>sql写法INDEX a total_amount TYPE minmax GRANULARITY 5  </p>
-<p>GRANULARITY N 是设定二级索引对于一级索引粒度的粒度  </p>
-<p>查询where根据total_amount过滤时能触发二级索引</p>
-<h5 id="ttl"><a href="#ttl" class="headerlink" title="ttl"></a>ttl</h5><p>有列级别的ttl设置和表级别的ttl设置</p>
-<p>表级别的设置建表时指定,推荐使用分区的日期字段  </p>
-<p>例如 TTL toDate(create_time) + toIntervalDay(2)</p>
-<h5 id="ReplacingMergeTree"><a href="#ReplacingMergeTree" class="headerlink" title="ReplacingMergeTree"></a>ReplacingMergeTree</h5><p>多一个去重功能,例如根据分区时间日期字段去重</p>
-<p>数据的去重只会在合并的过程中出现  ,或者在insert插入时去重</p>
-<p>如果表经过了分区，去重只会在分区内部进行去重，不能执行跨分区的去重  </p>
-<p>适用于在后台清除重复的数据以节省空间，但是它不保证没有重复的数据出现  </p>
-<p>实际上按照order by指定的字段去重,相同的则按照插入顺序去重</p>
-<h5 id="SummingMergeTree"><a href="#SummingMergeTree" class="headerlink" title="SummingMergeTree"></a>SummingMergeTree</h5><p>按照指定字段汇总,必须是数值列,</p>
-<p>order by字段作为维度列</p>
-<p>汇总后其他字段保留第一条字段值</p>
-<p>不在一个分区的数据不会被聚合  </p>
-<p>只有在同一批次插入(新版本)或分片合并时才会进行聚合  </p>
-<p>设计时,唯一键值、流水号可以去掉，所有字段全部是维度、度量或者时间戳  </p>
-<h5 id="ReplicatedMergeTree"><a href="#ReplicatedMergeTree" class="headerlink" title="ReplicatedMergeTree"></a>ReplicatedMergeTree</h5><p>创建副本表,需要在不同节点分别建表,这样就相当于创建了副本表,数据能够同步,查询任意都可以查询到</p>
-<p>参数1写法:&#x2F;clickhouse&#x2F;tables&#x2F;库名&#x2F;表名&#x2F;{uuid}&#x2F;{shard},分片</p>
-<p>参数2写法:{replica},副本</p>
-<h5 id="Distributed"><a href="#Distributed" class="headerlink" title="Distributed"></a>Distributed</h5><p>通过分片把一份完整的数据进行切分，不同的分片分布到不同的节点上，再通过 Distributed 表引擎把数据拼接起来一同使用  ,本身不存储数据  </p>
-<p>分片键,即参数4,常用hiveHash(),可以设置为order by的字段</p>
-<h5 id="如何实现高性能update和delete"><a href="#如何实现高性能update和delete" class="headerlink" title="如何实现高性能update和delete"></a>如何实现高性能update和delete</h5><p>update:设置_version字段,插入时该字段自增1,查询时过滤该字段最大值,直接使用replacing merge tree更好??</p>
-<p>delete:设置_sign字段,不删除设置0,删除设置1,想要删除时设置1并且设置version字段自增1,然后过滤最大version和删除标记为0的即可</p>
-<h5 id="rollup-cube-total的区别"><a href="#rollup-cube-total的区别" class="headerlink" title="rollup,cube,total的区别"></a>rollup,cube,total的区别</h5><p>rollup从右到左去掉维度小计</p>
-<p>cube,先从右到左再从左到右,小计</p>
-<p>total直接总计</p>
-<h5 id="如何导出数据"><a href="#如何导出数据" class="headerlink" title="如何导出数据"></a>如何导出数据</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clickhouse-client --query &quot;select * from t_order_mt where create_time=&#x27;2020-06-01 12:00:00&#x27;&quot; --format CSVWithNames &gt; /opt/module/data/rs1.csv  </span><br></pre></td></tr></table></figure>
-
-<h5 id="clickhouse创建集群表使用uuid"><a href="#clickhouse创建集群表使用uuid" class="headerlink" title="clickhouse创建集群表使用uuid"></a>clickhouse创建集群表使用uuid</h5><p>目的是删除后可以立即创建同样的表名,因为zk节点信息没有那么快去及时删除</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/21/bigdata007/" data-id="cm3ae93sm00066curdpwn3t2t" data-title="Clickhouse学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/23/bigdata006/" data-id="cm3aedmzb00080gurhf3xaa4l" data-title="HBase学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -832,7 +739,100 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/21/bigdata004/" data-id="cm3ae93so000b6curf57khtdl" data-title="Flink学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/21/bigdata004/" data-id="cm3aedmzc000a0gur7q88dlzl" data-title="Flink学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/asuka.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-bigdata007" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/asuka.github.io/2024/10/21/bigdata007/" class="article-date">
+  <time class="dt-published" datetime="2024-10-21T03:24:38.000Z" itemprop="datePublished">2024-10-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/asuka.github.io/2024/10/21/bigdata007/">Clickhouse学习笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本文是自己在学习Clickhouse过程中整理的一些基础笔记,仅做记录</p>
+<h5 id="clickhouse是什么"><a href="#clickhouse是什么" class="headerlink" title="clickhouse是什么"></a>clickhouse是什么</h5><p>基于c++编写,列式存储数据库,用于olap在线分析</p>
+<p>50mb-200mb每秒的写入速度</p>
+<p>每行数据100bytes估算,即50w-200w每秒的数据条数写入</p>
+<p>单表聚合查询速度特别快,测试比presto,impala,spark,hive,都要快</p>
+<p>并行处理能力强,单条查询语句利用整机cpu</p>
+<p>关联查询慢</p>
+<h5 id="clickhouse有哪些表引擎"><a href="#clickhouse有哪些表引擎" class="headerlink" title="clickhouse有哪些表引擎"></a>clickhouse有哪些表引擎</h5><p>TinyLog,不支持索引,没有并发控制,平时练习使用,用得少</p>
+<p>Memory,未压缩数据存储内存,不支持索引,数据量尽量限制在1亿行内,用得少</p>
+<p>MergeTree  ,以及衍生系列</p>
+<p>ReplacingMergeTree  </p>
+<p>SummingMergeTree  </p>
+<h5 id="分区的作用"><a href="#分区的作用" class="headerlink" title="分区的作用"></a>分区的作用</h5><p>partition by分区,目的主要是降低扫描的范围，优化查询速度  ,可选</p>
+<p>涉及跨分区的查询统计， ClickHouse 会以分区为单位并行处理  </p>
+<p>任何一个批次的数据写入都会产生一个临时分区，不会纳入任何一个已有的分区。写入<br>后的某个时刻（大概 10-15 分钟后）， ClickHouse 会自动执行合并操作（等不及也可以手动<br>通过 optimize 执行）  </p>
+<p>是可选项</p>
+<h5 id="主键的作用"><a href="#主键的作用" class="headerlink" title="主键的作用"></a>主键的作用</h5><p>提供一级索引,但是不是唯一性约束,一般根据where条件设置</p>
+<p>根据条件通过对主键进行某种形式的二分查找，能够定位到对应的 index granularity,避<br>免了全表扫描</p>
+<p>主键必须是 order by 字段的前缀字段  比如 order by 字段是 (id,sku_id) 那么主键必须是 id 或者(id,sku_id)    </p>
+<p>是可选项</p>
+<h5 id="排序的作用"><a href="#排序的作用" class="headerlink" title="排序的作用"></a>排序的作用</h5><p>最重要,必选项</p>
+<p>order by 设定了分区内的数据按照哪些字段顺序进行有序保存  </p>
+<h5 id="二级索引"><a href="#二级索引" class="headerlink" title="二级索引"></a>二级索引</h5><p>21版本支持二级索引,二级索引能够为非主键字段的查询发挥作用  </p>
+<p>sql写法INDEX a total_amount TYPE minmax GRANULARITY 5  </p>
+<p>GRANULARITY N 是设定二级索引对于一级索引粒度的粒度  </p>
+<p>查询where根据total_amount过滤时能触发二级索引</p>
+<h5 id="ttl"><a href="#ttl" class="headerlink" title="ttl"></a>ttl</h5><p>有列级别的ttl设置和表级别的ttl设置</p>
+<p>表级别的设置建表时指定,推荐使用分区的日期字段  </p>
+<p>例如 TTL toDate(create_time) + toIntervalDay(2)</p>
+<h5 id="ReplacingMergeTree"><a href="#ReplacingMergeTree" class="headerlink" title="ReplacingMergeTree"></a>ReplacingMergeTree</h5><p>多一个去重功能,例如根据分区时间日期字段去重</p>
+<p>数据的去重只会在合并的过程中出现  ,或者在insert插入时去重</p>
+<p>如果表经过了分区，去重只会在分区内部进行去重，不能执行跨分区的去重  </p>
+<p>适用于在后台清除重复的数据以节省空间，但是它不保证没有重复的数据出现  </p>
+<p>实际上按照order by指定的字段去重,相同的则按照插入顺序去重</p>
+<h5 id="SummingMergeTree"><a href="#SummingMergeTree" class="headerlink" title="SummingMergeTree"></a>SummingMergeTree</h5><p>按照指定字段汇总,必须是数值列,</p>
+<p>order by字段作为维度列</p>
+<p>汇总后其他字段保留第一条字段值</p>
+<p>不在一个分区的数据不会被聚合  </p>
+<p>只有在同一批次插入(新版本)或分片合并时才会进行聚合  </p>
+<p>设计时,唯一键值、流水号可以去掉，所有字段全部是维度、度量或者时间戳  </p>
+<h5 id="ReplicatedMergeTree"><a href="#ReplicatedMergeTree" class="headerlink" title="ReplicatedMergeTree"></a>ReplicatedMergeTree</h5><p>创建副本表,需要在不同节点分别建表,这样就相当于创建了副本表,数据能够同步,查询任意都可以查询到</p>
+<p>参数1写法:&#x2F;clickhouse&#x2F;tables&#x2F;库名&#x2F;表名&#x2F;{uuid}&#x2F;{shard},分片</p>
+<p>参数2写法:{replica},副本</p>
+<h5 id="Distributed"><a href="#Distributed" class="headerlink" title="Distributed"></a>Distributed</h5><p>通过分片把一份完整的数据进行切分，不同的分片分布到不同的节点上，再通过 Distributed 表引擎把数据拼接起来一同使用  ,本身不存储数据  </p>
+<p>分片键,即参数4,常用hiveHash(),可以设置为order by的字段</p>
+<h5 id="如何实现高性能update和delete"><a href="#如何实现高性能update和delete" class="headerlink" title="如何实现高性能update和delete"></a>如何实现高性能update和delete</h5><p>update:设置_version字段,插入时该字段自增1,查询时过滤该字段最大值,直接使用replacing merge tree更好??</p>
+<p>delete:设置_sign字段,不删除设置0,删除设置1,想要删除时设置1并且设置version字段自增1,然后过滤最大version和删除标记为0的即可</p>
+<h5 id="rollup-cube-total的区别"><a href="#rollup-cube-total的区别" class="headerlink" title="rollup,cube,total的区别"></a>rollup,cube,total的区别</h5><p>rollup从右到左去掉维度小计</p>
+<p>cube,先从右到左再从左到右,小计</p>
+<p>total直接总计</p>
+<h5 id="如何导出数据"><a href="#如何导出数据" class="headerlink" title="如何导出数据"></a>如何导出数据</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clickhouse-client --query &quot;select * from t_order_mt where create_time=&#x27;2020-06-01 12:00:00&#x27;&quot; --format CSVWithNames &gt; /opt/module/data/rs1.csv  </span><br></pre></td></tr></table></figure>
+
+<h5 id="clickhouse创建集群表使用uuid"><a href="#clickhouse创建集群表使用uuid" class="headerlink" title="clickhouse创建集群表使用uuid"></a>clickhouse创建集群表使用uuid</h5><p>目的是删除后可以立即创建同样的表名,因为zk节点信息没有那么快去及时删除</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/21/bigdata007/" data-id="cm3aedmzd000e0gur1pl85fcd" data-title="Clickhouse学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1325,7 +1325,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/16/bigdata003/" data-id="cm3ae93sl00056cur5jch44pl" data-title="Spark学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/16/bigdata003/" data-id="cm3aedmzb00070gurgljeaziu" data-title="Spark学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1628,7 +1628,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/15/bigdata002/" data-id="cm3ae93sj00026curdr3v927s" data-title="Hive学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/15/bigdata002/" data-id="cm3aedmz700020gure3317rhv" data-title="Hive学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1771,7 +1771,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/09/bigdata001/" data-id="cm3ae93sg00016cur9m8349rp" data-title="Hadoop学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://nfsp412.github.io/asuka.github.io/2024/10/09/bigdata001/" data-id="cm3aedmz400010gur086k18im" data-title="Hadoop学习笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1838,11 +1838,11 @@
           </li>
         
           <li>
-            <a href="/asuka.github.io/2024/10/21/bigdata007/">Clickhouse学习笔记</a>
+            <a href="/asuka.github.io/2024/10/21/bigdata004/">Flink学习笔记</a>
           </li>
         
           <li>
-            <a href="/asuka.github.io/2024/10/21/bigdata004/">Flink学习笔记</a>
+            <a href="/asuka.github.io/2024/10/21/bigdata007/">Clickhouse学习笔记</a>
           </li>
         
           <li>
